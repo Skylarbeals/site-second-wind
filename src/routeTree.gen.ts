@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as FilamentsRouteImport } from './routes/filaments'
 import { Route as QuoteRouteImport } from './routes/quote'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedWorkshopRouteRouteImport } from './routes/_authenticated/_workshop/route'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedWorkshopActivityRouteImport } from './routes/_authenticated/_workshop/activity'
@@ -46,6 +47,11 @@ const FilamentsRoute = FilamentsRouteImport.update({
 const QuoteRoute = QuoteRouteImport.update({
   id: '/quote',
   path: '/quote',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedWorkshopRouteRoute =
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/filaments': typeof FilamentsRoute
   '/quote': typeof QuoteRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/account': typeof AuthenticatedAccountRoute
   '/activity': typeof AuthenticatedWorkshopActivityRoute
   '/admin': typeof AuthenticatedWorkshopAdminRoute
@@ -120,6 +127,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/filaments': typeof FilamentsRoute
   '/quote': typeof QuoteRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/account': typeof AuthenticatedAccountRoute
   '/activity': typeof AuthenticatedWorkshopActivityRoute
   '/admin': typeof AuthenticatedWorkshopAdminRoute
@@ -136,6 +144,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/filaments': typeof FilamentsRoute
   '/quote': typeof QuoteRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/_workshop': typeof AuthenticatedWorkshopRouteRouteWithChildren
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/_workshop/activity': typeof AuthenticatedWorkshopActivityRoute
@@ -153,6 +162,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/filaments'
     | '/quote'
+    | '/reset-password'
     | '/account'
     | '/activity'
     | '/admin'
@@ -167,6 +177,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/filaments'
     | '/quote'
+    | '/reset-password'
     | '/account'
     | '/activity'
     | '/admin'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/filaments'
     | '/quote'
+    | '/reset-password'
     | '/_authenticated/_workshop'
     | '/_authenticated/account'
     | '/_authenticated/_workshop/activity'
@@ -199,6 +211,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   FilamentsRoute: typeof FilamentsRoute
   QuoteRoute: typeof QuoteRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -236,6 +249,13 @@ declare module '@tanstack/react-router' {
       path: '/quote'
       fullPath: '/quote'
       preLoaderRoute: typeof QuoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/_workshop': {
@@ -349,6 +369,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   FilamentsRoute: FilamentsRoute,
   QuoteRoute: QuoteRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
