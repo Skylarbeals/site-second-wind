@@ -181,9 +181,18 @@ function readStore(): Store {
   return starter;
 }
 export function getStore(): Store { return readStore(); }
+let remoteWriter: ((store: Store) => void) | null = null;
+/** Cloud sync registers here so every local save is also pushed to the shared shop record. */
+export function setRemoteWriter(fn: ((store: Store) => void) | null) { remoteWriter = fn; }
+/** Replace the local copy with data received from the cloud (no push back). */
+export function applyRemoteStore(data: unknown) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(validateStore(data)));
+  window.dispatchEvent(new Event(UPDATED));
+}
 function writeStore(store: Store) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
   window.dispatchEvent(new Event(UPDATED));
+  remoteWriter?.(store);
 }
 export function useInventory() {
   // Browser storage is only available after hydration; the server renders an empty store.

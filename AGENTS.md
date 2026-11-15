@@ -35,3 +35,5 @@ use the editor.
 - Store reads happen after hydration (`useInventory().ready`, AppShell renders pages client-side) because localStorage does not exist during server rendering.
 - Page styles live in plain CSS (`src/app.css`, `src/orders.css`) imported from `src/styles.css`, carried over from the original app.
 - Order stage changes and filament deduction are pure functions in `src/lib/inventory.ts` (createOrder, startOrderInStore, completeOrderInStore) so they stay unit-tested; the hook only reads/writes storage around them.
+- Shared data lives in one Lovable Cloud row (`shop_state`, id `main`) holding the whole store JSON; localStorage (`benchstock-local-v1`) is a local cache that `AuthGate` syncs (load on sign-in, debounced push on write, realtime pull). Why: keeps the pure store functions and backups unchanged.
+- Access is invite-only: public sign-up is disabled; accounts are added in Cloud Users. Why: only the owner and partner may use the shop.

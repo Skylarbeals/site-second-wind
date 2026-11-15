@@ -1,3 +1,4 @@
+import { SignOutButton } from './auth-gate';
 import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { Link, useLocation } from '@tanstack/react-router';
 import { KanbanSquare, CirclePlay, Activity, AlertTriangle, Archive, ArrowDownToLine, ArrowLeftRight, ArrowUpRight, Box, Check, ChevronRight, CirclePlus, ClipboardList, Download, FileUp, Filter, Gauge, Layers3, Package, Plus, Printer, Search, Settings2, Shapes, Trash2, X } from 'lucide-react';
@@ -28,10 +29,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       </Link>
       <div className="nav-label">WORKSPACE</div>
       {navItems.map(({href,label,icon:Icon})=><Link key={href} to={href} className={`nav-link ${location===href?'active':''}`} aria-current={location===href?'page':undefined} data-testid={`link-nav-${label.toLowerCase()}`}><Icon size={17}/><span>{label}</span></Link>)}
-      <div className="rail-foot"><span className="local-dot"/>Saved on this device<br/>No account required</div>
+      <div className="rail-foot"><span className="local-dot"/>Auto-saved to the cloud<br/><SignOutButton/></div>
     </aside>
     <main className="main-area">
-      <header className="topbar"><div className="crumb">Workshop / {(navItems.find(n=>n.href===location)?.label??(location==='/activity'?'Activity':'Page'))}</div><div style={{display:'flex',alignItems:'center',gap:8,fontSize:11,color:'#78837d'}}><span className="local-dot"/> Local mode</div></header>
+      <header className="topbar"><div className="crumb">Workshop / {(navItems.find(n=>n.href===location)?.label??(location==='/activity'?'Activity':'Page'))}</div><div style={{display:'flex',alignItems:'center',gap:8,fontSize:11,color:'#78837d'}}><span className="local-dot"/> Synced</div></header>
       {hydrated ? children : null}
     </main>
     <nav className="mobile-nav" aria-label="Primary navigation">{navItems.map(({href,label,icon:Icon})=><Link key={href} to={href} className={`nav-link ${location===href?'active':''}`} data-testid={`mobile-nav-${label.toLowerCase()}`}><Icon size={17}/><span>{label}</span></Link>)}</nav>
