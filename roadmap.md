@@ -1,7 +1,8 @@
 # Roadmap
-- [ ] Add customer registration and unified account sign-in
-- [ ] Add owner-only order tracking and private customer/workshop messages
-- [ ] Verify customer and administrator access end to end
+- [x] Add customer registration and unified account sign-in
+- [x] Add owner-only order tracking and private customer/workshop messages
+- [x] Verify administrator sign-in, request tracking, messages, and anonymous restrictions
+- [ ] Verify confirmation-email delivery, customer-only sign-in, and social sign-in (requires a real confirmed customer account/provider interaction)
 - [x] Integrate Bolt Shop, Filaments, and Quote pages
 - [x] Protect workshop and customer model files with team-only permissions
 - [x] Connect customer requests to the order board and filament workflow

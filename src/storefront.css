@@ -83,6 +83,9 @@
 .google-auth-button {background:var(--google-background);color:var(--google-foreground);border-color:var(--google-border);padding:0 12px;gap:10px;font-weight:500;}
 .google-auth-button svg {width:18px;height:18px;}
 .account-order {border-block-end:1px solid var(--border);padding:26px 0;}
+.storefront-section-head h1 {font-size:32px;font-weight:800;line-height:1.2;}
+.quote-account-note {margin-bottom:24px;color:var(--muted-foreground);font-size:14px;}
+.quote-account-note a {color:var(--primary);}
 .account-order header {display:flex;justify-content:space-between;gap:16px;align-items:flex-start;}
 .account-order h2 {font-size:20px;overflow-wrap:anywhere;}
 .account-order p {color:var(--muted-foreground);margin:10px 0;overflow-wrap:anywhere;white-space:pre-wrap;}
