@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CartRouteImport } from './routes/cart'
 import { Route as FilamentsRouteImport } from './routes/filaments'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
@@ -37,6 +38,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartRoute = CartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FilamentsRoute = FilamentsRouteImport.update({
@@ -110,6 +116,7 @@ const AuthenticatedWorkshopSettingsRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/cart': typeof CartRoute
   '/filaments': typeof FilamentsRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -125,6 +132,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/cart': typeof CartRoute
   '/filaments': typeof FilamentsRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/cart': typeof CartRoute
   '/filaments': typeof FilamentsRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -160,6 +169,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/cart'
     | '/filaments'
     | '/quote'
     | '/reset-password'
@@ -175,6 +185,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/cart'
     | '/filaments'
     | '/quote'
     | '/reset-password'
@@ -191,6 +202,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/cart'
     | '/filaments'
     | '/quote'
     | '/reset-password'
@@ -209,6 +221,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  CartRoute: typeof CartRoute
   FilamentsRoute: typeof FilamentsRoute
   QuoteRoute: typeof QuoteRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -235,6 +248,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/filaments': {
@@ -367,6 +387,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  CartRoute: CartRoute,
   FilamentsRoute: FilamentsRoute,
   QuoteRoute: QuoteRoute,
   ResetPasswordRoute: ResetPasswordRoute,
