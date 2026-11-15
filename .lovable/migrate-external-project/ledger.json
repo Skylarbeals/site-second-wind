@@ -64,6 +64,13 @@
       "outcome": "build + browser check of each page and order flow",
       "status": "verified",
       "next_action": "none"
+    },
+    {
+      "capability": "follow-up features",
+      "source": "user request",
+      "outcome": "empty start, order stages, order board, deduct on start",
+      "status": "verified",
+      "next_action": "none"
     }
   ]
 }
