@@ -5,7 +5,7 @@ export type RollWeightKg = 0.5 | 1 | 2 | 3;
 export type InventoryItem = {
   id: string; name: string; sku: string; kind: Kind; material: string; color: string;
   quantity: number; unit: string; threshold: number; unitCost: number; location: string;
-  supplier: string; updatedAt: string; rollWeightKg?: RollWeightKg;
+  supplier: string; updatedAt: string; rollWeightKg?: RollWeightKg | undefined;
 };
 export type StockChange = {
   id: string; itemId: string; itemName: string; date: string; change: number;
@@ -29,7 +29,8 @@ export function calcMaterialCost(grams: number, rollCost: number, rollWeightKg?:
 
 const EMPTY_STORE: Store = { items: [], history: [], orders: [] };
 
-function isRecord(value: unknown): value is Record<string, unknown> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- validates untrusted backup JSON field by field
+function isRecord(value: unknown): value is any {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 

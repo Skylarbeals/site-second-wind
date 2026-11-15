@@ -115,7 +115,7 @@ export function InventoryPage() {
 
 type ItemDraft=Omit<InventoryItem,'id'|'updatedAt'>;
 const blankDraft:ItemDraft={name:'',sku:'',kind:'material',material:'',color:'',quantity:0,unit:'kg',threshold:0,unitCost:0,rollWeightKg:1,location:'',supplier:''};
-function ItemModal({item,onClose,onSave}:{item?:InventoryItem;onClose:()=>void;onSave:(data:ItemDraft)=>void}) {
+function ItemModal({item,onClose,onSave}:{item?:InventoryItem|undefined;onClose:()=>void;onSave:(data:ItemDraft)=>void}) {
   const [form,setForm]=useState<ItemDraft>(item?{...item}:blankDraft);
   const [error,setError]=useState('');
   const isFilament=form.kind==='material'&&form.unit.trim().toLowerCase()==='kg';
