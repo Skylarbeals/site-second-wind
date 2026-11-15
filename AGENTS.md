@@ -36,7 +36,9 @@ use the editor.
 - Page styles live in plain CSS (`src/app.css`, `src/orders.css`) imported from `src/styles.css`, carried over from the original app.
 - Order stage changes and filament deduction are pure functions in `src/lib/inventory.ts` (createOrder, startOrderInStore, completeOrderInStore) so they stay unit-tested; the hook only reads/writes storage around them.
 - Shared data lives in one Lovable Cloud row (`shop_state`, id `main`) holding the whole store JSON; localStorage (`benchstock-local-v1`) is a local cache that `AuthGate` syncs (load on sign-in, debounced push on write, realtime pull). Why: keeps the pure store functions and backups unchanged.
-- Access is invite-only: public sign-up is disabled; accounts are added in Cloud Users. Why: only the owner and partner may use the shop.
+- Customer registration is public with email confirmation; workshop access still requires an explicitly assigned admin role. Why: customer accounts must never inherit management permissions.
+- Customer requests are owned by the authenticated subject at submission, never claimed by email; customer tracking mirrors only order stages from shop JSON. Why: isolates customer data without exposing workshop inventory or costs.
+- Private request messages use immutable sender identity and per-audience read receipts under RLS. Why: both administrators can share conversations without customers accessing other requests.
 - Public customer routes live outside `_authenticated`; existing workshop URLs stay under that pathless gate, and `/admin` is the private overview. Why: separates public browsing from stock management without breaking shared inventory links.
 - Workshop permissions use protected `user_roles` admin rows and RLS, not merely a signed-in session; new accounts require explicit role assignment. Why: future customer accounts must never inherit workshop access.
 - Public listings use separate `inventory_items` and `filaments` tables; quotes use private `quote_requests` and `quote-files`. Why: exposes only intentional catalog data, never workshop costs or customer files.
