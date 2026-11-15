@@ -1,8 +1,8 @@
 # Roadmap
-- [ ] Integrate Bolt Shop, Filaments, and Quote pages
-- [ ] Protect workshop and customer model files with team-only permissions
-- [ ] Connect customer requests to the order board and filament workflow
-- [ ] Verify submissions, file access, and private management
+- [x] Integrate Bolt Shop, Filaments, and Quote pages
+- [x] Protect workshop and customer model files with team-only permissions
+- [x] Connect customer requests to the order board and filament workflow
+- [x] Verify submissions, file access, and private management
 - [ ] Import existing Bolt records and files (awaiting exports)
 - [x] Bring the Replit Benchstock app over
 - [x] Remove the sample stock and activity so real inventory can be entered
