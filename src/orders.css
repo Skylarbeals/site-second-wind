@@ -301,8 +301,8 @@
   --orders-orange-pale: #ffb16e;
   --orders-paper: #f2f2f3;
 }
-.orders-page .page-title { color: #f2f2f3; }
-.orders-page .page-desc { color: #a8aab0; }
+.orders-page .page-title { color: #20373e; }
+.orders-page .page-desc { color: #76817c; }
 .orders-page .orders-local-note { color: #b7b9bf; border-color: #3b3d42; background: #202226; }
 .orders-page .orders-local-note .local-dot { background: #f97316; }
 .orders-page .orders-summary { background: #383a40; border-color: #383a40; }

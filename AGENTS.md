@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+
+- Benchstock stores all data in browser localStorage (key `benchstock-local-v1`) via `src/lib/inventory.ts`; keep that key so existing JSON backups and saved data keep working.
+- Store reads happen after hydration (`useInventory().ready`, AppShell renders pages client-side) because localStorage does not exist during server rendering.
+- Page styles live in plain CSS (`src/app.css`, `src/orders.css`) imported from `src/styles.css`, carried over from the original app.
