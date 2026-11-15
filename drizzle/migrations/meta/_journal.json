@@ -50,6 +50,13 @@
       "when": 1794786221173,
       "tag": "0006_product_photos_public_read",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794786563719,
+      "tag": "0007_customer_reviews",
+      "breakpoints": true
     }
   ]
 }

@@ -186,6 +186,36 @@ export type Database = {
         }
         Relationships: []
       }
+      reviews: {
+        Row: {
+          author_name: string
+          body: string
+          created_at: string
+          id: string
+          photo_path: string | null
+          rating: number
+          user_id: string
+        }
+        Insert: {
+          author_name: string
+          body: string
+          created_at?: string
+          id?: string
+          photo_path?: string | null
+          rating: number
+          user_id: string
+        }
+        Update: {
+          author_name?: string
+          body?: string
+          created_at?: string
+          id?: string
+          photo_path?: string | null
+          rating?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       shop_state: {
         Row: {
           data: Json
