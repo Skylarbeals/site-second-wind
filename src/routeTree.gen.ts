@@ -14,13 +14,15 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as FilamentsRouteImport } from './routes/filaments'
 import { Route as QuoteRouteImport } from './routes/quote'
-import { Route as AuthenticatedActivityRouteImport } from './routes/_authenticated/activity'
-import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
-import { Route as AuthenticatedCatalogRouteImport } from './routes/_authenticated/catalog'
-import { Route as AuthenticatedInventoryRouteImport } from './routes/_authenticated/inventory'
-import { Route as AuthenticatedOrderBoardRouteImport } from './routes/_authenticated/order-board'
-import { Route as AuthenticatedOrdersRouteImport } from './routes/_authenticated/orders'
-import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedWorkshopRouteRouteImport } from './routes/_authenticated/_workshop/route'
+import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
+import { Route as AuthenticatedWorkshopActivityRouteImport } from './routes/_authenticated/_workshop/activity'
+import { Route as AuthenticatedWorkshopAdminRouteImport } from './routes/_authenticated/_workshop/admin'
+import { Route as AuthenticatedWorkshopCatalogRouteImport } from './routes/_authenticated/_workshop/catalog'
+import { Route as AuthenticatedWorkshopInventoryRouteImport } from './routes/_authenticated/_workshop/inventory'
+import { Route as AuthenticatedWorkshopOrderBoardRouteImport } from './routes/_authenticated/_workshop/order-board'
+import { Route as AuthenticatedWorkshopOrdersRouteImport } from './routes/_authenticated/_workshop/orders'
+import { Route as AuthenticatedWorkshopSettingsRouteImport } from './routes/_authenticated/_workshop/settings'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,67 +48,86 @@ const QuoteRoute = QuoteRouteImport.update({
   path: '/quote',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedActivityRoute = AuthenticatedActivityRouteImport.update({
-  id: '/activity',
-  path: '/activity',
+const AuthenticatedWorkshopRouteRoute =
+  AuthenticatedWorkshopRouteRouteImport.update({
+    id: '/_workshop',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedCatalogRoute = AuthenticatedCatalogRouteImport.update({
-  id: '/catalog',
-  path: '/catalog',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedInventoryRoute = AuthenticatedInventoryRouteImport.update({
-  id: '/inventory',
-  path: '/inventory',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedOrderBoardRoute = AuthenticatedOrderBoardRouteImport.update({
-  id: '/order-board',
-  path: '/order-board',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedOrdersRoute = AuthenticatedOrdersRouteImport.update({
-  id: '/orders',
-  path: '/orders',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
+const AuthenticatedWorkshopActivityRoute =
+  AuthenticatedWorkshopActivityRouteImport.update({
+    id: '/activity',
+    path: '/activity',
+    getParentRoute: () => AuthenticatedWorkshopRouteRoute,
+  } as any)
+const AuthenticatedWorkshopAdminRoute =
+  AuthenticatedWorkshopAdminRouteImport.update({
+    id: '/admin',
+    path: '/admin',
+    getParentRoute: () => AuthenticatedWorkshopRouteRoute,
+  } as any)
+const AuthenticatedWorkshopCatalogRoute =
+  AuthenticatedWorkshopCatalogRouteImport.update({
+    id: '/catalog',
+    path: '/catalog',
+    getParentRoute: () => AuthenticatedWorkshopRouteRoute,
+  } as any)
+const AuthenticatedWorkshopInventoryRoute =
+  AuthenticatedWorkshopInventoryRouteImport.update({
+    id: '/inventory',
+    path: '/inventory',
+    getParentRoute: () => AuthenticatedWorkshopRouteRoute,
+  } as any)
+const AuthenticatedWorkshopOrderBoardRoute =
+  AuthenticatedWorkshopOrderBoardRouteImport.update({
+    id: '/order-board',
+    path: '/order-board',
+    getParentRoute: () => AuthenticatedWorkshopRouteRoute,
+  } as any)
+const AuthenticatedWorkshopOrdersRoute =
+  AuthenticatedWorkshopOrdersRouteImport.update({
+    id: '/orders',
+    path: '/orders',
+    getParentRoute: () => AuthenticatedWorkshopRouteRoute,
+  } as any)
+const AuthenticatedWorkshopSettingsRoute =
+  AuthenticatedWorkshopSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedWorkshopRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/filaments': typeof FilamentsRoute
   '/quote': typeof QuoteRoute
-  '/activity': typeof AuthenticatedActivityRoute
-  '/admin': typeof AuthenticatedAdminRoute
-  '/catalog': typeof AuthenticatedCatalogRoute
-  '/inventory': typeof AuthenticatedInventoryRoute
-  '/order-board': typeof AuthenticatedOrderBoardRoute
-  '/orders': typeof AuthenticatedOrdersRoute
-  '/settings': typeof AuthenticatedSettingsRoute
+  '/account': typeof AuthenticatedAccountRoute
+  '/activity': typeof AuthenticatedWorkshopActivityRoute
+  '/admin': typeof AuthenticatedWorkshopAdminRoute
+  '/catalog': typeof AuthenticatedWorkshopCatalogRoute
+  '/inventory': typeof AuthenticatedWorkshopInventoryRoute
+  '/order-board': typeof AuthenticatedWorkshopOrderBoardRoute
+  '/orders': typeof AuthenticatedWorkshopOrdersRoute
+  '/settings': typeof AuthenticatedWorkshopSettingsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/filaments': typeof FilamentsRoute
   '/quote': typeof QuoteRoute
-  '/activity': typeof AuthenticatedActivityRoute
-  '/admin': typeof AuthenticatedAdminRoute
-  '/catalog': typeof AuthenticatedCatalogRoute
-  '/inventory': typeof AuthenticatedInventoryRoute
-  '/order-board': typeof AuthenticatedOrderBoardRoute
-  '/orders': typeof AuthenticatedOrdersRoute
-  '/settings': typeof AuthenticatedSettingsRoute
+  '/account': typeof AuthenticatedAccountRoute
+  '/activity': typeof AuthenticatedWorkshopActivityRoute
+  '/admin': typeof AuthenticatedWorkshopAdminRoute
+  '/catalog': typeof AuthenticatedWorkshopCatalogRoute
+  '/inventory': typeof AuthenticatedWorkshopInventoryRoute
+  '/order-board': typeof AuthenticatedWorkshopOrderBoardRoute
+  '/orders': typeof AuthenticatedWorkshopOrdersRoute
+  '/settings': typeof AuthenticatedWorkshopSettingsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -115,13 +136,15 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/filaments': typeof FilamentsRoute
   '/quote': typeof QuoteRoute
-  '/_authenticated/activity': typeof AuthenticatedActivityRoute
-  '/_authenticated/admin': typeof AuthenticatedAdminRoute
-  '/_authenticated/catalog': typeof AuthenticatedCatalogRoute
-  '/_authenticated/inventory': typeof AuthenticatedInventoryRoute
-  '/_authenticated/order-board': typeof AuthenticatedOrderBoardRoute
-  '/_authenticated/orders': typeof AuthenticatedOrdersRoute
-  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/_workshop': typeof AuthenticatedWorkshopRouteRouteWithChildren
+  '/_authenticated/account': typeof AuthenticatedAccountRoute
+  '/_authenticated/_workshop/activity': typeof AuthenticatedWorkshopActivityRoute
+  '/_authenticated/_workshop/admin': typeof AuthenticatedWorkshopAdminRoute
+  '/_authenticated/_workshop/catalog': typeof AuthenticatedWorkshopCatalogRoute
+  '/_authenticated/_workshop/inventory': typeof AuthenticatedWorkshopInventoryRoute
+  '/_authenticated/_workshop/order-board': typeof AuthenticatedWorkshopOrderBoardRoute
+  '/_authenticated/_workshop/orders': typeof AuthenticatedWorkshopOrdersRoute
+  '/_authenticated/_workshop/settings': typeof AuthenticatedWorkshopSettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -130,6 +153,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/filaments'
     | '/quote'
+    | '/account'
     | '/activity'
     | '/admin'
     | '/catalog'
@@ -143,6 +167,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/filaments'
     | '/quote'
+    | '/account'
     | '/activity'
     | '/admin'
     | '/catalog'
@@ -157,13 +182,15 @@ export interface FileRouteTypes {
     | '/auth'
     | '/filaments'
     | '/quote'
-    | '/_authenticated/activity'
-    | '/_authenticated/admin'
-    | '/_authenticated/catalog'
-    | '/_authenticated/inventory'
-    | '/_authenticated/order-board'
-    | '/_authenticated/orders'
-    | '/_authenticated/settings'
+    | '/_authenticated/_workshop'
+    | '/_authenticated/account'
+    | '/_authenticated/_workshop/activity'
+    | '/_authenticated/_workshop/admin'
+    | '/_authenticated/_workshop/catalog'
+    | '/_authenticated/_workshop/inventory'
+    | '/_authenticated/_workshop/order-board'
+    | '/_authenticated/_workshop/orders'
+    | '/_authenticated/_workshop/settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -211,76 +238,106 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuoteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/activity': {
-      id: '/_authenticated/activity'
+    '/_authenticated/_workshop': {
+      id: '/_authenticated/_workshop'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedWorkshopRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/account': {
+      id: '/_authenticated/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AuthenticatedAccountRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/_workshop/activity': {
+      id: '/_authenticated/_workshop/activity'
       path: '/activity'
       fullPath: '/activity'
-      preLoaderRoute: typeof AuthenticatedActivityRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      preLoaderRoute: typeof AuthenticatedWorkshopActivityRouteImport
+      parentRoute: typeof AuthenticatedWorkshopRouteRoute
     }
-    '/_authenticated/admin': {
-      id: '/_authenticated/admin'
+    '/_authenticated/_workshop/admin': {
+      id: '/_authenticated/_workshop/admin'
       path: '/admin'
       fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedAdminRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      preLoaderRoute: typeof AuthenticatedWorkshopAdminRouteImport
+      parentRoute: typeof AuthenticatedWorkshopRouteRoute
     }
-    '/_authenticated/catalog': {
-      id: '/_authenticated/catalog'
+    '/_authenticated/_workshop/catalog': {
+      id: '/_authenticated/_workshop/catalog'
       path: '/catalog'
       fullPath: '/catalog'
-      preLoaderRoute: typeof AuthenticatedCatalogRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      preLoaderRoute: typeof AuthenticatedWorkshopCatalogRouteImport
+      parentRoute: typeof AuthenticatedWorkshopRouteRoute
     }
-    '/_authenticated/inventory': {
-      id: '/_authenticated/inventory'
+    '/_authenticated/_workshop/inventory': {
+      id: '/_authenticated/_workshop/inventory'
       path: '/inventory'
       fullPath: '/inventory'
-      preLoaderRoute: typeof AuthenticatedInventoryRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      preLoaderRoute: typeof AuthenticatedWorkshopInventoryRouteImport
+      parentRoute: typeof AuthenticatedWorkshopRouteRoute
     }
-    '/_authenticated/order-board': {
-      id: '/_authenticated/order-board'
+    '/_authenticated/_workshop/order-board': {
+      id: '/_authenticated/_workshop/order-board'
       path: '/order-board'
       fullPath: '/order-board'
-      preLoaderRoute: typeof AuthenticatedOrderBoardRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      preLoaderRoute: typeof AuthenticatedWorkshopOrderBoardRouteImport
+      parentRoute: typeof AuthenticatedWorkshopRouteRoute
     }
-    '/_authenticated/orders': {
-      id: '/_authenticated/orders'
+    '/_authenticated/_workshop/orders': {
+      id: '/_authenticated/_workshop/orders'
       path: '/orders'
       fullPath: '/orders'
-      preLoaderRoute: typeof AuthenticatedOrdersRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      preLoaderRoute: typeof AuthenticatedWorkshopOrdersRouteImport
+      parentRoute: typeof AuthenticatedWorkshopRouteRoute
     }
-    '/_authenticated/settings': {
-      id: '/_authenticated/settings'
+    '/_authenticated/_workshop/settings': {
+      id: '/_authenticated/_workshop/settings'
       path: '/settings'
       fullPath: '/settings'
-      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      preLoaderRoute: typeof AuthenticatedWorkshopSettingsRouteImport
+      parentRoute: typeof AuthenticatedWorkshopRouteRoute
     }
   }
 }
 
+interface AuthenticatedWorkshopRouteRouteChildren {
+  AuthenticatedWorkshopActivityRoute: typeof AuthenticatedWorkshopActivityRoute
+  AuthenticatedWorkshopAdminRoute: typeof AuthenticatedWorkshopAdminRoute
+  AuthenticatedWorkshopCatalogRoute: typeof AuthenticatedWorkshopCatalogRoute
+  AuthenticatedWorkshopInventoryRoute: typeof AuthenticatedWorkshopInventoryRoute
+  AuthenticatedWorkshopOrderBoardRoute: typeof AuthenticatedWorkshopOrderBoardRoute
+  AuthenticatedWorkshopOrdersRoute: typeof AuthenticatedWorkshopOrdersRoute
+  AuthenticatedWorkshopSettingsRoute: typeof AuthenticatedWorkshopSettingsRoute
+}
+
+const AuthenticatedWorkshopRouteRouteChildren: AuthenticatedWorkshopRouteRouteChildren =
+  {
+    AuthenticatedWorkshopActivityRoute: AuthenticatedWorkshopActivityRoute,
+    AuthenticatedWorkshopAdminRoute: AuthenticatedWorkshopAdminRoute,
+    AuthenticatedWorkshopCatalogRoute: AuthenticatedWorkshopCatalogRoute,
+    AuthenticatedWorkshopInventoryRoute: AuthenticatedWorkshopInventoryRoute,
+    AuthenticatedWorkshopOrderBoardRoute: AuthenticatedWorkshopOrderBoardRoute,
+    AuthenticatedWorkshopOrdersRoute: AuthenticatedWorkshopOrdersRoute,
+    AuthenticatedWorkshopSettingsRoute: AuthenticatedWorkshopSettingsRoute,
+  }
+
+const AuthenticatedWorkshopRouteRouteWithChildren =
+  AuthenticatedWorkshopRouteRoute._addFileChildren(
+    AuthenticatedWorkshopRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedActivityRoute: typeof AuthenticatedActivityRoute
-  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
-  AuthenticatedCatalogRoute: typeof AuthenticatedCatalogRoute
-  AuthenticatedInventoryRoute: typeof AuthenticatedInventoryRoute
-  AuthenticatedOrderBoardRoute: typeof AuthenticatedOrderBoardRoute
-  AuthenticatedOrdersRoute: typeof AuthenticatedOrdersRoute
-  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedWorkshopRouteRoute: typeof AuthenticatedWorkshopRouteRouteWithChildren
+  AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedActivityRoute: AuthenticatedActivityRoute,
-  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
-  AuthenticatedCatalogRoute: AuthenticatedCatalogRoute,
-  AuthenticatedInventoryRoute: AuthenticatedInventoryRoute,
-  AuthenticatedOrderBoardRoute: AuthenticatedOrderBoardRoute,
-  AuthenticatedOrdersRoute: AuthenticatedOrdersRoute,
-  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedWorkshopRouteRoute: AuthenticatedWorkshopRouteRouteWithChildren,
+  AuthenticatedAccountRoute: AuthenticatedAccountRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

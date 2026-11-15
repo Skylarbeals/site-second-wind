@@ -1,4 +1,5 @@
-import { useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { Link } from '@tanstack/react-router';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { FileUp, Send, CheckCircle2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,6 +7,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { catalogOptions } from '@/lib/storefront.queries';
 import { quoteDetailsSchema, validateModel } from '@/lib/storefront';
 import { StorefrontShell } from './catalog';
+import { useAccountSession } from './account-session';
 
 export function QuotePage() {
   const { data } = useSuspenseQuery(catalogOptions);
@@ -16,6 +18,8 @@ export function QuotePage() {
   const [comment,setComment] = useState(''); const [file,setFile] = useState<File|null>(null);
   const [error,setError] = useState(''); const [busy,setBusy] = useState(false); const [done,setDone] = useState(false);
   const input = useRef<HTMLInputElement>(null);
+  const { user } = useAccountSession();
+  useEffect(() => { if (user?.email) setEmail(user.email); }, [user?.email]);
   const selected = filaments.find(f=>f.id===selection);
   const choose = (model?: File) => { if (!model) return; try { validateModel(model); setFile(model); setError(''); } catch(e) {setFile(null);setError(e instanceof Error?e.message:'Invalid model.');} };
   const submit = async (event:FormEvent) => {
