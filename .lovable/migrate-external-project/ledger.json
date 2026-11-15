@@ -1,0 +1,76 @@
+{
+  "source": "replit (code archive: 3D-Inventory-Hub.zip)",
+  "app": "Benchstock - print shop inventory (artifacts/printshop-inventory)",
+  "capabilities": [
+    {
+      "capability": "code",
+      "source": "React + wouter SPA (Overview, Inventory, Orders, Activity, Settings)",
+      "outcome": "migrate to TanStack routes",
+      "status": "verified",
+      "next_action": "none"
+    },
+    {
+      "capability": "schema",
+      "source": "lib/db drizzle schema is an empty template; DATABASE_URL never used by the app",
+      "outcome": "none needed",
+      "status": "not_applicable",
+      "next_action": "none"
+    },
+    {
+      "capability": "records",
+      "source": "browser localStorage key benchstock-local-v1, JSON backup/restore in Settings",
+      "outcome": "preserve local storage + same key so backups restore",
+      "status": "verified",
+      "next_action": "none"
+    },
+    {
+      "capability": "auth",
+      "source": "none (no accounts by design)",
+      "outcome": "none",
+      "status": "not_applicable",
+      "next_action": "none"
+    },
+    {
+      "capability": "api-server",
+      "source": "Express /api/healthz only",
+      "outcome": "drop (only a health check, unused by the UI)",
+      "status": "not_applicable",
+      "next_action": "none"
+    },
+    {
+      "capability": "mockup-sandbox",
+      "source": "Replit design preview tool",
+      "outcome": "drop (Replit tooling)",
+      "status": "not_applicable",
+      "next_action": "none"
+    },
+    {
+      "capability": "storage/schedules/webhooks/payments/email/ai",
+      "source": "none detected",
+      "outcome": "none",
+      "status": "not_applicable",
+      "next_action": "none"
+    },
+    {
+      "capability": "secrets",
+      "source": "REPL_ID, BASE_PATH, PORT (Replit platform)",
+      "outcome": "platform metadata, not needed",
+      "status": "not_applicable",
+      "next_action": "none"
+    },
+    {
+      "capability": "verification",
+      "source": "-",
+      "outcome": "build + browser check of each page and order flow",
+      "status": "verified",
+      "next_action": "none"
+    },
+    {
+      "capability": "follow-up features",
+      "source": "user request",
+      "outcome": "empty start, order stages, order board, deduct on start",
+      "status": "verified",
+      "next_action": "none"
+    }
+  ]
+}
