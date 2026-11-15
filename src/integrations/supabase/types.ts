@@ -163,6 +163,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      accept_quote_into_shop: {
+        Args: {
+          expected_updated_at: string
+          next_order_id: string
+          next_store: Json
+          request_id: string
+        }
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
