@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import OrdersPage from "@/components/benchstock/orders";
 
-export const Route = createFileRoute("/orders")({
+export const Route = createFileRoute("/_authenticated/orders")({
   head: () => ({
     meta: [
       { title: "Orders — Benchstock" },

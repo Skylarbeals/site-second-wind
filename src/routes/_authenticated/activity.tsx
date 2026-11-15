@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ActivityPage } from "@/components/benchstock/pages";
 
-export const Route = createFileRoute("/activity")({
+export const Route = createFileRoute("/_authenticated/activity")({
   head: () => ({
     meta: [
       { title: "Activity — Benchstock" },

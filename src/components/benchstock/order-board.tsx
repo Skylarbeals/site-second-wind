@@ -2,6 +2,7 @@ import { useMemo, useState, type ReactNode } from 'react';
 import { Link } from '@tanstack/react-router';
 import { AlertCircle, Check, CirclePlay, ClipboardList, Hourglass, History, Plus, Trash2 } from 'lucide-react';
 import { availableGramsOf, useInventory, type PrintOrder } from '@/lib/inventory';
+import { CustomerRequests } from './customer-requests';
 
 const money = (n: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }).format(n);
 const shortDate = (s?: string) => (s ? new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }).format(new Date(s)) : '—');
@@ -73,7 +74,8 @@ export function OrderBoardPage() {
           {past.map((o) => <OrderLine key={o.id} order={o} meta={`Completed ${shortDate(o.completedAt ?? o.date)}`} />)}
         </Lane>
       </div>
-      <div className="board-foot"><ClipboardList size={13} /> {inv.orders.length} orders · saved in this browser</div>
+      <CustomerRequests />
+      <div className="board-foot"><ClipboardList size={13} /> {inv.orders.length} orders · saved to your shop</div>
     </div>
   );
 }

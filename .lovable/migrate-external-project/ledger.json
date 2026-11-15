@@ -1,5 +1,16 @@
 {
-  "source": "replit (code archive: 3D-Inventory-Hub.zip)",
+  "source": "Replit Benchstock plus Bolt frontend-main.zip",
+  "bolt_integration": [
+    {"capability":"code","source":"Shop, Filaments, Quote, unauthenticated Manage","outcome":"public Shop/Filaments/Quote plus private catalog manager; existing workshop retained","status":"verified","next_action":"none"},
+    {"capability":"schema","source":"inventory_items, filaments, quote_requests","outcome":"migrated to Lovable Cloud with explicit grants and RLS","status":"verified","next_action":"none"},
+    {"capability":"records","source":"no record export attached","outcome":"migrate","status":"pending","next_action":"request Bolt application table exports"},
+    {"capability":"auth identities","source":"no auth callsites or profiles detected","outcome":"retain invite-only workshop accounts","status":"not_applicable","next_action":"none"},
+    {"capability":"authorization","source":"public Manage and permissive writes","outcome":"existing two accounts granted admin; anonymous private reads return zero rows and listing writes denied","status":"verified","next_action":"none"},
+    {"capability":"uploaded file bytes","source":"quote-files; no files supplied","outcome":"private Lovable Cloud storage","status":"pending","next_action":"request existing files if any"},
+    {"capability":"external providers, public endpoints, callbacks, webhooks, schedules, secrets","source":"no callsites beyond source database/storage","outcome":"replace source database/storage with Cloud","status":"not_applicable","next_action":"none"},
+    {"capability":"cutover","source":"published workshop URLs","outcome":"keep existing inventory/orders URLs; move overview to /admin","status":"pending","next_action":"publish after verification"},
+    {"capability":"verification","source":"public request to private queue","outcome":"anonymous upload, signed-in download matching bytes, accepted queued order with unchanged stock, catalog create/read/delete, private access denial, mobile no overflow, 15 passing tests; test records/files removed","status":"verified","next_action":"none"}
+  ],
   "app": "Benchstock - print shop inventory (artifacts/printshop-inventory)",
   "capabilities": [
     {

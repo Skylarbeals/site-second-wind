@@ -8,6 +8,27 @@
       "when": 1794766025770,
       "tag": "0000_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794784232606,
+      "tag": "0001_customer_storefront_and_team_access",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794784288132,
+      "tag": "0002_atomic_quote_acceptance",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794784658560,
+      "tag": "0003_fix_quote_timestamp_comparison",
+      "breakpoints": true
     }
   ]
 }
