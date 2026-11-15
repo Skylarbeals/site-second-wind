@@ -1,13 +1,17 @@
 import { useState, type ReactNode } from 'react';
 import { Link } from '@tanstack/react-router';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { Flame, ArrowUpRight, Package, Layers, LockKeyhole } from 'lucide-react';
+import { Flame, ArrowUpRight, Package, Layers, LockKeyhole, UserRound } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { catalogOptions } from '@/lib/storefront.queries';
 import workshopImage from '@/assets/print-fire-workshop.jpg';
+import { useAccountSession } from './account-session';
+import { SignOutButton } from '@/components/benchstock/auth-gate';
+import { accountDestination } from '@/lib/customer-account';
 
 export function StorefrontShell({ children }: { children: ReactNode }) {
-  return <div className="storefront"><header className="storefront-nav"><Link to="/" className="storefront-brand"><Flame/><span>PRINT <em>&</em> FIRE</span></Link><nav aria-label="Customer navigation"><Link to="/" activeOptions={{exact:true}}>Shop</Link><Link to="/filaments">Filaments</Link><Button asChild><Link to="/quote">Get a quote <ArrowUpRight/></Link></Button></nav></header>{children}<footer className="storefront-footer"><span>Print & Fire · Made layer by layer.</span><Link to="/admin"><LockKeyhole size={14}/> Workshop sign in</Link></footer></div>;
+  const { user, admin } = useAccountSession();
+  return <div className="storefront"><header className="storefront-nav"><Link to="/" className="storefront-brand"><Flame/><span>PRINT <em>&</em> FIRE</span></Link><nav aria-label="Customer navigation"><Link to="/" activeOptions={{exact:true}}>Shop</Link><Link to="/filaments">Filaments</Link><Button asChild><Link to="/quote">Get a quote <ArrowUpRight/></Link></Button><Button asChild variant="ghost" size="icon" title={user ? admin ? 'Workshop dashboard' : 'My orders' : 'Sign in'}><Link to={user ? accountDestination(admin) : '/auth'} aria-label={user ? admin ? 'Workshop dashboard' : 'My orders' : 'Sign in'}><UserRound/></Link></Button>{user && <SignOutButton/>}</nav></header>{children}<footer className="storefront-footer"><span>Print & Fire · Made layer by layer.</span><Link to="/admin"><LockKeyhole size={14}/> Workshop sign in</Link></footer></div>;
 }
 
 export function ShopPage() {

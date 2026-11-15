@@ -76,6 +76,9 @@
 }
 
 :root {
+  --google-background: #131314;
+  --google-foreground: #e3e3e3;
+  --google-border: #8e918f;
   --radius: 0.5rem;
   --background: oklch(0.15 0.004 270);
   --foreground: oklch(0.95 0 0);
