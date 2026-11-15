@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useServerFn } from '@tanstack/react-start';
-import { Download, Check, X } from 'lucide-react';
+import { Download, Check, X, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { applyRemoteStore, useInventory } from '@/lib/inventory';
 import { acceptCustomerRequest } from '@/lib/storefront.functions';
 import type { QuoteRequest } from '@/lib/storefront';
+import { MessageThread } from '@/components/storefront/message-thread';
+import { useUnreadMessages } from '@/components/storefront/use-unread-messages';
 
 export function CustomerRequests() {
+  const [conversation,setConversation]=useState(''); const unread=useUnreadMessages();
   const inv=useInventory(); const accept=useServerFn(acceptCustomerRequest);
   const [requests,setRequests]=useState<QuoteRequest[]>([]); const [error,setError]=useState(''); const [loading,setLoading]=useState(true);
   const [busy,setBusy]=useState(''); const [selected,setSelected]=useState<QuoteRequest|null>(null);

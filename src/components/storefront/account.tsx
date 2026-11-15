@@ -9,9 +9,11 @@ import { getCustomerOrders } from '@/lib/customer-account.functions';
 import { useAccountSession } from './account-session';
 import { StorefrontShell } from './catalog';
 import { MessageThread } from './message-thread';
+import { useUnreadMessages } from './use-unread-messages';
 
 const stages: Record<string, string> = { received: 'Received', queued: 'In queue', in_progress: 'On the print bed', completed: 'Completed', closed: 'Closed' };
 export function CustomerAccountPage() {
+  const unread = useUnreadMessages();
   const fetch = useServerFn(getCustomerOrders); const cache = useQueryClient(); const { user } = useAccountSession();
   const [past, setPast] = useState(false); const [selected, setSelected] = useState('');
   const orders = useQuery({ queryKey: ['customer-orders', user?.id], queryFn: () => fetch(), enabled: !!user });
