@@ -21,6 +21,14 @@ const STORAGE_KEY = 'benchstock-local-v1';
 const UPDATED = 'benchstock-change';
 const ROLL_WEIGHTS: RollWeightKg[] = [0.5, 1, 2, 3];
 
+/** Material cost for a print: roll price scaled by grams used. Rolls without a valid size count as 1 kg. */
+export function calcMaterialCost(grams: number, rollCost: number, rollWeightKg?: number): number {
+  const weight = rollWeightKg && ROLL_WEIGHTS.includes(rollWeightKg as RollWeightKg) ? rollWeightKg : 1;
+  return Math.round((grams * rollCost / (weight * 1000)) * 100) / 100;
+}
+
+const EMPTY_STORE: Store = { items: [], history: [], orders: [] };
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
@@ -166,9 +174,13 @@ function writeStore(store: Store) {
   window.dispatchEvent(new Event(UPDATED));
 }
 export function useInventory() {
-  const [store, setStore] = useState<Store>(() => readStore());
+  // Browser storage is only available after hydration; the server renders an empty store.
+  const [store, setStore] = useState<Store>(EMPTY_STORE);
+  const [ready, setReady] = useState(false);
   useEffect(() => {
     const refresh = () => setStore(readStore());
+    refresh();
+    setReady(true);
     window.addEventListener(UPDATED, refresh);
     window.addEventListener('storage', refresh);
     return () => { window.removeEventListener(UPDATED, refresh); window.removeEventListener('storage', refresh); };
@@ -222,8 +234,7 @@ export function useInventory() {
     if (!Number.isFinite(grams) || !Number.isInteger(grams) || grams <= 0) throw new Error('Enter a whole number of grams greater than zero.');
     const availableGrams = Math.floor(item.quantity * 1000 + 1e-9);
     if (grams > availableGrams) throw new Error(`Only ${availableGrams} g is available in ${item.name}.`);
-    const rollWeightKg = item.rollWeightKg && ROLL_WEIGHTS.includes(item.rollWeightKg) ? item.rollWeightKg : 1;
-    const materialCost = Math.round((grams * item.unitCost / (rollWeightKg * 1000)) * 100) / 100;
+    const materialCost = calcMaterialCost(grams, item.unitCost, item.rollWeightKg);
     const resultingQuantity = Math.round((item.quantity - grams / 1000) * 1000) / 1000;
     const date = new Date().toISOString();
     const updatedItem = { ...item, quantity: resultingQuantity, updatedAt: date };
@@ -256,5 +267,5 @@ export function useInventory() {
     return order;
   };
   const importStore = (data: unknown) => writeStore(validateStore(data));
-  return { ...store, addItem, editItem, deleteItem, adjustStock, addOrder, importStore };
+  return { ...store, ready, addItem, editItem, deleteItem, adjustStock, addOrder, importStore };
 }
