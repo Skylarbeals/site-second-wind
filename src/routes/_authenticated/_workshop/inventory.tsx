@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { InventoryPage } from "@/components/benchstock/pages";
 
-export const Route = createFileRoute("/_authenticated/inventory")({
+export const Route = createFileRoute("/_authenticated/_workshop/inventory")({
   head: () => ({
     meta: [
       { title: "Inventory — Benchstock" },

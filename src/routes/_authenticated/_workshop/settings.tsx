@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SettingsPage } from "@/components/benchstock/pages";
 
-export const Route = createFileRoute("/_authenticated/settings")({
+export const Route = createFileRoute("/_authenticated/_workshop/settings")({
   head: () => ({
     meta: [
       { title: "Settings — Benchstock" },
