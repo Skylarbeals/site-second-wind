@@ -2,7 +2,7 @@ import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { useQueryClient } from '@tanstack/react-query';
-import { useNavigate, useRouter } from '@tanstack/react-router';
+import { useNavigate, useLocation } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { applyRemoteStore, getStore, setRemoteWriter, type Store } from '@/lib/inventory';
 
@@ -16,11 +16,11 @@ export function AuthGate({ children }: { children: ReactNode }) {
   const [checked, setChecked] = useState(false);
   const [synced, setSynced] = useState(false);
   const [syncError, setSyncError] = useState('');
-  const router = useRouter();
+  const href = useLocation({ select: location => location.href });
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: d }) => { setSession(d.session); setChecked(true); });
-  }, [router.state.location.key]);
+  }, [href]);
 
   const userId = session?.user.id;
   useEffect(() => {
