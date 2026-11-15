@@ -40,10 +40,10 @@ function validateStore(value: unknown): Store {
   }
 
   const deletedIds = new Set(
-    value.items.filter((entry) => isRecord(entry) && entry.kind === 'finished product').map((entry) => (entry as Record<string, unknown>).id),
+    value.items.filter((entry: unknown) => isRecord(entry) && entry.kind === 'finished product').map((entry: unknown) => (entry as Record<string, unknown>)["id"]),
   );
   const validKinds: Kind[] = ['material', 'tool', 'consumable'];
-  const items = value.items.filter((entry) => !isRecord(entry) || entry.kind !== 'finished product').map((entry): InventoryItem => {
+  const items = value.items.filter((entry: unknown) => !isRecord(entry) || entry.kind !== 'finished product').map((entry: unknown): InventoryItem => {
     if (!isRecord(entry)) throw new Error('This backup contains an invalid inventory item.');
     const textFields = ['id', 'name', 'sku', 'material', 'color', 'unit', 'location', 'supplier', 'updatedAt'] as const;
     const isLegacySupply = entry.kind === 'supply';
@@ -67,7 +67,7 @@ function validateStore(value: unknown): Store {
     } as unknown as InventoryItem;
   });
 
-  const history = value.history.filter((entry) => !isRecord(entry) || !deletedIds.has(entry.itemId)).map((entry): StockChange => {
+  const history = value.history.filter((entry: unknown) => !isRecord(entry) || !deletedIds.has(entry.itemId)).map((entry: unknown): StockChange => {
     if (
       !isRecord(entry) ||
       typeof entry.id !== 'string' ||
@@ -87,7 +87,7 @@ function validateStore(value: unknown): Store {
     return entry as unknown as StockChange;
   });
 
-  const orders = Array.isArray(value.orders) ? value.orders.map((entry): PrintOrder => {
+  const orders = Array.isArray(value.orders) ? value.orders.map((entry: unknown): PrintOrder => {
     if (
       !isRecord(entry) ||
       typeof entry.id !== 'string' ||
@@ -140,7 +140,7 @@ function readStore(): Store {
     if (Array.isArray(parsed.items) && Array.isArray(parsed.history)) {
       let migrated = false;
       const deletedIds = new Set(
-        parsed.items.filter((item: unknown) => isRecord(item) && item.kind === 'finished product').map((item: Record<string, unknown>) => item.id),
+        parsed.items.filter((item: unknown) => isRecord(item) && item.kind === 'finished product').map((item: Record<string, unknown>) => item["id"]),
       );
       const items = parsed.items.filter((item: unknown) => !isRecord(item) || item.kind !== 'finished product').map((item: unknown) => {
         if (isRecord(item) && item.kind === 'material' && typeof item.unit === 'string' && item.unit.trim().toLowerCase() === 'kg' && !ROLL_WEIGHTS.includes(item.rollWeightKg as RollWeightKg)) {
@@ -209,7 +209,7 @@ export function useInventory() {
       : current.history;
     writeStore({
       ...current,
-      items: current.items.map((entry) => entry.id === item.id ? updated : entry),
+      items: current.items.map((entry: unknown) => entry.id === item.id ? updated : entry),
       history,
     });
   };
@@ -261,7 +261,7 @@ export function useInventory() {
     };
     writeStore({
       ...current,
-      items: current.items.map((entry) => entry.id === item.id ? updatedItem : entry),
+      items: current.items.map((entry: unknown) => entry.id === item.id ? updatedItem : entry),
       history: [change, ...current.history],
       orders: [order, ...current.orders],
     });
