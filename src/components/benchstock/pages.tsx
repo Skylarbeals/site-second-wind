@@ -8,7 +8,7 @@ const navItems = [
   { href:'/inventory', label:'Inventory', icon:Package },
   { href:'/orders', label:'Orders', icon:ClipboardList },
   { href:'/settings', label:'Settings', icon:Settings2 },
-];
+] as const;
 const money = (n:number) => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:2}).format(n);
 const dateTime = (s:string) => new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(new Date(s));
 const dateShort = (s:string) => new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric'}).format(new Date(s));
@@ -29,7 +29,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="rail-foot"><span className="local-dot"/>Saved on this device<br/>No account required</div>
     </aside>
     <main className="main-area">
-      <header className="topbar"><div className="crumb">Workshop / {navItems.find(n=>n.href===location)?.label??'Page'}</div><div style={{display:'flex',alignItems:'center',gap:8,fontSize:11,color:'#78837d'}}><span className="local-dot"/> Local mode</div></header>
+      <header className="topbar"><div className="crumb">Workshop / {(navItems.find(n=>n.href===location)?.label??(location==='/activity'?'Activity':'Page'))}</div><div style={{display:'flex',alignItems:'center',gap:8,fontSize:11,color:'#78837d'}}><span className="local-dot"/> Local mode</div></header>
       {hydrated ? children : null}
     </main>
     <nav className="mobile-nav" aria-label="Primary navigation">{navItems.map(({href,label,icon:Icon})=><Link key={href} to={href} className={`nav-link ${location===href?'active':''}`} data-testid={`mobile-nav-${label.toLowerCase()}`}><Icon size={17}/><span>{label}</span></Link>)}</nav>
