@@ -25,9 +25,9 @@ export function ReviewsPage() {
   const load = async () => {
     const { data } = await supabase.from('reviews').select('*').order('created_at', { ascending: false });
     const rows = await Promise.all((data ?? []).map(async r => {
-      if (!r.photo_path) return r;
+      if (!r.photo_path) return r as Review;
       const s = await supabase.storage.from('review-photos').createSignedUrl(r.photo_path, 3600);
-      return { ...r, photo: s.data?.signedUrl };
+      return { ...r, photo: s.data?.signedUrl ?? undefined } as Review;
     }));
     setReviews(rows); setLoading(false);
   };
