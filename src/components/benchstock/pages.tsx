@@ -5,10 +5,11 @@ import { KanbanSquare, CirclePlay, Activity, AlertTriangle, Archive, ArrowDownTo
 import { useInventory, type InventoryItem, type Kind, type RollWeightKg, type StockChange } from '@/lib/inventory';
 
 const navItems = [
-  { href:'/', label:'Overview', icon:Gauge },
+  { href:'/admin', label:'Overview', icon:Gauge },
   { href:'/inventory', label:'Inventory', icon:Package },
   { href:'/orders', label:'Orders', icon:ClipboardList },
   { href:'/order-board', label:'Order board', icon:KanbanSquare },
+  { href:'/catalog', label:'Storefront', icon:Shapes },
   { href:'/settings', label:'Settings', icon:Settings2 },
 ] as const;
 const money = (n:number) => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:2}).format(n);
@@ -23,7 +24,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   useEffect(() => setHydrated(true), []);
   return <div className="app-shell">
     <aside className="side-rail" aria-label="Primary navigation">
-      <Link to="/" className="brand-mark" data-testid="link-brand">
+      <Link to="/admin" className="brand-mark" data-testid="link-brand">
         <div className="brand-icon"><Printer size={21}/></div>
         <div className="brand-copy"><div className="brand-name">Benchstock</div><div className="brand-sub">Print shop inventory</div></div>
       </Link>

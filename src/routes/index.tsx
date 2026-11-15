@@ -1,16 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Overview } from "@/components/benchstock/pages";
+import { ShopPage } from '@/components/storefront/catalog';
+import { catalogOptions } from '@/lib/storefront.queries';
 
 export const Route = createFileRoute("/")({
+  loader: ({context}) => context.queryClient.ensureQueryData(catalogOptions),
   head: () => ({
     meta: [
-      { title: "Benchstock — Print shop overview" },
-      { name: "description", content: "See what is in stock, what is running low and what moved in your 3D print shop." },
-      { property: "og:title", content: "Benchstock — Print shop overview" },
-      { property: "og:description", content: "See what is in stock, what is running low and what moved in your 3D print shop." },
+      { title: "Print & Fire — 3D prints and custom parts" },
+      { name: "description", content: "Browse ready-to-ship 3D prints or send your model for a custom Print & Fire quote." },
+      { property: "og:title", content: "Print & Fire — 3D prints and custom parts" },
+      { property: "og:description", content: "Browse ready-to-ship 3D prints or send your model for a custom Print & Fire quote." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: Overview,
+  component: ShopPage,
 });
