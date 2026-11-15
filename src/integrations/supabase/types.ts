@@ -14,6 +14,41 @@ export type Database = {
   }
   public: {
     Tables: {
+      customer_messages: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          request_id: string
+          sender_id: string
+          sender_is_admin: boolean
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          request_id: string
+          sender_id: string
+          sender_is_admin?: boolean
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          request_id?: string
+          sender_id?: string
+          sender_is_admin?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_messages_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "quote_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       filaments: {
         Row: {
           best_used_for: string
@@ -77,6 +112,32 @@ export type Database = {
         }
         Relationships: []
       }
+      message_reads: {
+        Row: {
+          read_at: string
+          request_id: string
+          user_id: string
+        }
+        Insert: {
+          read_at?: string
+          request_id: string
+          user_id: string
+        }
+        Update: {
+          read_at?: string
+          request_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "message_reads_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "quote_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       quote_requests: {
         Row: {
           color: string
@@ -84,6 +145,8 @@ export type Database = {
           created_at: string
           customer_email: string
           customer_name: string
+          customer_stage: string
+          customer_user_id: string | null
           file_name: string
           file_path: string
           id: string
@@ -97,6 +160,8 @@ export type Database = {
           created_at?: string
           customer_email: string
           customer_name: string
+          customer_stage?: string
+          customer_user_id?: string | null
           file_name: string
           file_path: string
           id: string
@@ -110,6 +175,8 @@ export type Database = {
           created_at?: string
           customer_email?: string
           customer_name?: string
+          customer_stage?: string
+          customer_user_id?: string | null
           file_name?: string
           file_path?: string
           id?: string
