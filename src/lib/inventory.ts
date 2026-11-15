@@ -209,7 +209,7 @@ export function useInventory() {
       : current.history;
     writeStore({
       ...current,
-      items: current.items.map((entry: unknown) => entry.id === item.id ? updated : entry),
+      items: current.items.map((entry) => entry.id === item.id ? updated : entry),
       history,
     });
   };
@@ -261,7 +261,7 @@ export function useInventory() {
     };
     writeStore({
       ...current,
-      items: current.items.map((entry: unknown) => entry.id === item.id ? updatedItem : entry),
+      items: current.items.map((entry) => entry.id === item.id ? updatedItem : entry),
       history: [change, ...current.history],
       orders: [order, ...current.orders],
     });
