@@ -14,6 +14,111 @@ export type Database = {
   }
   public: {
     Tables: {
+      filaments: {
+        Row: {
+          best_used_for: string
+          color: string
+          color_hex: string | null
+          created_at: string
+          id: string
+          in_stock: boolean
+          material: string
+          name: string
+        }
+        Insert: {
+          best_used_for?: string
+          color: string
+          color_hex?: string | null
+          created_at?: string
+          id?: string
+          in_stock?: boolean
+          material: string
+          name: string
+        }
+        Update: {
+          best_used_for?: string
+          color?: string
+          color_hex?: string | null
+          created_at?: string
+          id?: string
+          in_stock?: boolean
+          material?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      inventory_items: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          name: string
+          price_cents: number
+          quantity: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          price_cents?: number
+          quantity?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          price_cents?: number
+          quantity?: number
+        }
+        Relationships: []
+      }
+      quote_requests: {
+        Row: {
+          color: string
+          comment: string | null
+          created_at: string
+          customer_email: string
+          customer_name: string
+          file_name: string
+          file_path: string
+          id: string
+          material: string
+          order_id: string | null
+          status: string
+        }
+        Insert: {
+          color: string
+          comment?: string | null
+          created_at?: string
+          customer_email: string
+          customer_name: string
+          file_name: string
+          file_path: string
+          id: string
+          material: string
+          order_id?: string | null
+          status?: string
+        }
+        Update: {
+          color?: string
+          comment?: string | null
+          created_at?: string
+          customer_email?: string
+          customer_name?: string
+          file_name?: string
+          file_path?: string
+          id?: string
+          material?: string
+          order_id?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       shop_state: {
         Row: {
           data: Json
@@ -35,15 +140,43 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      valid_quote_file: {
+        Args: { path: string; request_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -170,6 +303,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
