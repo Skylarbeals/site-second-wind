@@ -1,6 +1,9 @@
 import { useMemo, useState, type FormEvent } from 'react';
 import { AlertCircle, ArrowDownRight, Check, CircleDollarSign, ClipboardList, Package, Plus, Printer, Scale } from 'lucide-react';
-import { calcMaterialCost, useInventory } from '@/lib/inventory';
+import { Link } from '@tanstack/react-router';
+import { availableGramsOf, calcMaterialCost, useInventory, type OrderStatus } from '@/lib/inventory';
+
+export const statusLabel: Record<OrderStatus, string> = { queued: 'Not started', in_progress: 'In progress', completed: 'Completed' };
 
 const money = (amount: number) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }).format(amount);
@@ -15,7 +18,7 @@ export default function OrdersPage() {
   const inventory = useInventory();
   const availableMaterials = useMemo(
     () => inventory.items
-      .filter((item) => item.kind === 'material' && item.unit.trim().toLowerCase() === 'kg' && item.quantity > 0)
+      .filter((item) => item.kind === 'material' && item.unit.trim().toLowerCase() === 'kg')
       .slice()
       .sort((a, b) => a.name.localeCompare(b.name)),
     [inventory.items],
@@ -23,14 +26,15 @@ export default function OrdersPage() {
   const [orderName, setOrderName] = useState('');
   const [grams, setGrams] = useState('');
   const [materialItemId, setMaterialItemId] = useState('');
+  const [startNow, setStartNow] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
   const selectedMaterial = availableMaterials.find((item) => item.id === materialItemId);
   const parsedGrams = Number(grams);
   const enteredValidGrams = grams.trim() !== '' && Number.isInteger(parsedGrams) && parsedGrams > 0;
-  const availableGrams = selectedMaterial ? Math.floor(selectedMaterial.quantity * 1000 + 1e-9) : 0;
-  const isInsufficient = Boolean(selectedMaterial && enteredValidGrams && parsedGrams > availableGrams);
+  const availableGrams = selectedMaterial ? availableGramsOf(selectedMaterial) : 0;
+  const isInsufficient = Boolean(startNow && selectedMaterial && enteredValidGrams && parsedGrams > availableGrams);
   const estimatedCost = selectedMaterial && enteredValidGrams
     ? calcMaterialCost(parsedGrams, selectedMaterial.unitCost, selectedMaterial.rollWeightKg)
     : null;
@@ -39,8 +43,9 @@ export default function OrdersPage() {
     () => inventory.orders.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
     [inventory.orders],
   );
-  const totalGrams = sortedOrders.reduce((sum, order) => sum + order.grams, 0);
-  const totalCost = sortedOrders.reduce((sum, order) => sum + order.materialCost, 0);
+  const startedOrders = sortedOrders.filter((order) => order.status !== 'queued');
+  const totalGrams = startedOrders.reduce((sum, order) => sum + order.grams, 0);
+  const totalCost = startedOrders.reduce((sum, order) => sum + order.materialCost, 0);
 
   const submitOrder = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -55,10 +60,10 @@ export default function OrdersPage() {
       return;
     }
     if (!selectedMaterial) {
-      setError(availableMaterials.length ? 'Choose an in-stock filament item.' : 'There is no usable filament in stock.');
+      setError(availableMaterials.length ? 'Choose a filament item.' : 'Add a filament item to inventory first.');
       return;
     }
-    if (parsedGrams > availableGrams) {
+    if (startNow && parsedGrams > availableGrams) {
       setError(`Only ${availableGrams} g is available in ${selectedMaterial.name}.`);
       return;
     }
@@ -68,8 +73,11 @@ export default function OrdersPage() {
         orderName: orderName.trim(),
         grams: parsedGrams,
         materialItemId: selectedMaterial.id,
+        status: startNow ? 'in_progress' : 'queued',
       });
-      setSuccess(`${savedOrder.orderName} recorded. ${savedOrder.grams} g deducted from stock.`);
+      setSuccess(startNow
+        ? `${savedOrder.orderName} is in progress. ${savedOrder.grams} g deducted from stock.`
+        : `${savedOrder.orderName} added as not started. Stock will be deducted when you start it.`);
       setOrderName('');
       setGrams('');
       setMaterialItemId('');
@@ -84,7 +92,7 @@ export default function OrdersPage() {
         <div>
           <div className="orders-kicker"><span className="orders-kicker-mark" /> WORKSHOP LEDGER / PRINT ORDERS</div>
           <h1 className="page-title">Orders</h1>
-          <p className="page-desc">Log a print. Keep its material cost and stock movement together.</p>
+          <p className="page-desc">Log a print. Start it now, or keep it in line until you're ready.</p>
         </div>
         <div className="orders-local-note"><span className="local-dot" />Saved on this device</div>
       </header>
@@ -98,7 +106,7 @@ export default function OrdersPage() {
         <div className="orders-summary-item">
           <span className="orders-summary-label">Material used</span>
           <strong>{totalGrams.toLocaleString()}<small> g</small></strong>
-          <span className="orders-summary-foot">Across saved orders</span>
+          <span className="orders-summary-foot">Orders started or finished</span>
         </div>
         <div className="orders-summary-item orders-summary-cost">
           <span className="orders-summary-label">Recorded material cost</span>
@@ -116,12 +124,12 @@ export default function OrdersPage() {
               <h2 id="new-order-heading">Record a print</h2>
             </div>
           </div>
-          <p className="orders-form-intro">Select the exact filament record used. Saving deducts the weight from its on-hand balance.</p>
+          <p className="orders-form-intro">Select the exact filament record used. Filament is deducted from stock when the order goes into progress.</p>
 
           {!availableMaterials.length && (
             <div className="orders-notice orders-notice-warning" role="status" data-testid="status-no-filament">
               <AlertCircle size={17} />
-              <div><strong>No filament available</strong><span>Add a material inventory item measured in kg with a positive balance before recording an order.</span></div>
+              <div><strong>No filament available</strong><span>Add a filament item (a material measured in kg) on the Inventory page before recording an order.</span></div>
             </div>
           )}
 
@@ -147,7 +155,7 @@ export default function OrdersPage() {
                 disabled={!availableMaterials.length}
                 data-testid="select-order-material"
               >
-                <option value="">Select in-stock filament</option>
+                <option value="">Select filament</option>
                 {availableMaterials.map((item) => (
                   <option value={item.id} key={item.id}>
                     {item.name} · {item.quantity.toFixed(3)} kg left
@@ -180,6 +188,13 @@ export default function OrdersPage() {
               {isInsufficient && <span className="orders-inline-error" role="status">Only {availableGrams.toLocaleString()} g available for this item.</span>}
             </label>
 
+            <div className="field orders-field">
+              <span className="field-label">Stage</span>
+              <div className="weight-options" role="group" aria-label="Order stage">
+                <button type="button" className={`weight-option ${startNow ? 'active' : ''}`} aria-pressed={startNow} onClick={() => { setStartNow(true); setError(''); }} data-testid="button-stage-start">In progress now</button>
+                <button type="button" className={`weight-option ${!startNow ? 'active' : ''}`} aria-pressed={!startNow} onClick={() => { setStartNow(false); setError(''); }} data-testid="button-stage-queue">Not started yet</button>
+              </div>
+            </div>
             <div className="orders-estimate" aria-live="polite" data-testid="panel-order-estimate">
               <div className="orders-estimate-copy">
                 <span className="orders-estimate-label"><CircleDollarSign size={15} /> Material cost estimate</span>
@@ -196,9 +211,9 @@ export default function OrdersPage() {
             {success && <div className="orders-notice orders-notice-success" role="status" data-testid="status-order-saved"><Check size={16} /><span>{success}</span></div>}
 
             <button className="btn btn-primary orders-submit" type="submit" disabled={!availableMaterials.length} data-testid="button-save-order">
-              <Plus size={16} /> Record order
+              <Plus size={16} /> {startNow ? 'Start order' : 'Add to not started'}
             </button>
-            <p className="orders-submit-note"><ArrowDownRight size={13} /> Stock is deducted when you save</p>
+            <p className="orders-submit-note"><ArrowDownRight size={13} /> {startNow ? 'Stock is deducted when you save' : 'No stock is used until you start it on the Order board'}</p>
           </form>
         </section>
 
@@ -208,7 +223,7 @@ export default function OrdersPage() {
               <div className="orders-eyebrow">THE PAPER TRAIL</div>
               <h2 id="orders-list-heading">Saved orders <span>{sortedOrders.length}</span></h2>
             </div>
-            <div className="orders-list-tag"><ClipboardList size={14} /> LOCAL RECORDS</div>
+            <Link to="/order-board" className="orders-list-tag" data-testid="link-order-board"><ClipboardList size={14} /> ORDER BOARD</Link>
           </div>
           {!sortedOrders.length ? (
             <div className="orders-empty" data-testid="empty-orders">
@@ -220,7 +235,7 @@ export default function OrdersPage() {
             <div className="orders-table-wrap">
               <table className="orders-table">
                 <thead>
-                  <tr><th>Print order</th><th>Filament</th><th>Used</th><th>Cost</th><th>Date</th></tr>
+                  <tr><th>Print order</th><th>Filament</th><th>Grams</th><th>Cost</th><th>Stage</th><th>Date</th></tr>
                 </thead>
                 <tbody>
                   {sortedOrders.map((order) => (
@@ -229,6 +244,7 @@ export default function OrdersPage() {
                       <td><span className="orders-material-name">{order.material}</span><span className="orders-color"><i />{order.color}</span></td>
                       <td className="orders-mono">{order.grams.toLocaleString()} g</td>
                       <td className="orders-price">{money(order.materialCost)}</td>
+                      <td><span className={`order-stage order-stage-${order.status}`}>{statusLabel[order.status]}</span></td>
                       <td className="orders-date">{orderDate(order.date)}</td>
                     </tr>
                   ))}
@@ -242,6 +258,7 @@ export default function OrdersPage() {
                     <div className="orders-mobile-card-bottom">
                       <span>{order.material} <i /> {order.color}</span>
                       <span>{order.grams.toLocaleString()} g</span>
+                      <span>{statusLabel[order.status]}</span>
                       <span>{orderDate(order.date)}</span>
                     </div>
                   </article>
