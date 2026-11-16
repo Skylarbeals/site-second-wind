@@ -49,3 +49,15 @@ describe("sample stock removal", () => {
     expect(removeStarterData(store).items.map((i) => i.id)).toEqual(["my-pla"]);
   });
 });
+
+describe('external jobs', () => {
+  it('keeps source, payout and ship-by, and does not deduct while queued', async () => {
+    const { createOrder } = await import('./inventory');
+    const store = { items: [{ id: 'f', name: 'PLA', kind: 'material', unit: 'kg', quantity: 1, unitCost: 20, material: 'PLA', color: 'Black' }], history: [], orders: [] } as any;
+    const { store: next, order } = createOrder(store, { orderName: 'bracket', grams: 84, materialItemId: 'f', status: 'queued', source: 'Hotend Labs', payout: 22.4, shipBy: '2026-11-20' });
+    expect(order.source).toBe('Hotend Labs');
+    expect(order.payout).toBe(22.4);
+    expect(order.shipBy).toBe('2026-11-20');
+    expect(next.items[0].quantity).toBe(1);
+  });
+});
