@@ -351,3 +351,10 @@ export function removeQueuedOrder(store: Store, orderId: string): Store {
   if (!order || order.status !== 'queued') throw new Error('Only orders that have not started can be removed.');
   return { ...store, orders: store.orders.filter((entry) => entry.id !== orderId) };
 }
+
+/** Dropdown label for a filament spool: SKU, name, color, kg left. */
+export function filamentLabel(item: InventoryItem): string {
+  const sku = item.sku?.trim() ? `[${item.sku.trim()}] ` : '';
+  const color = item.color?.trim() ? ` — ${item.color.trim()}` : '';
+  return `${sku}${item.name}${color} · ${Number(item.quantity.toFixed(3))} kg left`;
+}

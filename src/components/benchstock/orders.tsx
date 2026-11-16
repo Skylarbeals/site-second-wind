@@ -158,13 +158,13 @@ export default function OrdersPage() {
                 <option value="">Select filament</option>
                 {availableMaterials.map((item) => (
                   <option value={item.id} key={item.id}>
-                    {item.name} · {item.quantity.toFixed(3)} kg left
+                    {filamentLabel(item)}
                   </option>
                 ))}
               </select>
               {selectedMaterial && (
                 <span className="orders-material-meta" data-testid="text-selected-material">
-                  {selectedMaterial.material} <i /> {selectedMaterial.color} <i /> {availableGrams.toLocaleString()} g available
+                  {selectedMaterial.sku && <>SKU {selectedMaterial.sku} <i /> </>}{selectedMaterial.material} <i /> {selectedMaterial.color} <i /> {availableGrams.toLocaleString()} g available
                 </span>
               )}
             </label>

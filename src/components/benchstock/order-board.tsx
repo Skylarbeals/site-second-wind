@@ -116,7 +116,7 @@ function ExternalJobModal({ onClose }: { onClose: () => void }) {
           {field('Source', <select className="input" value={source} onChange={(e) => setSource(e.target.value)}>{SOURCES.map((s) => <option key={s}>{s}</option>)}</select>)}
           {source === 'Other' && field('Site name', <input className="input" maxLength={60} value={other} onChange={(e) => setOther(e.target.value)} placeholder="e.g. Slant 3D" />)}
           {field('Part / file name', <input className="input" required maxLength={120} value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. bracket_v4.3mf" />)}
-          {field('Filament from inventory', <select className="input" required value={materialItemId} onChange={(e) => setMaterial(e.target.value)}><option value="">Choose filament</option>{filament.map((f) => <option key={f.id} value={f.id}>{f.name} · {f.quantity} kg</option>)}</select>)}
+          {field('Filament from inventory', <select className="input" required value={materialItemId} onChange={(e) => setMaterial(e.target.value)}><option value="">Choose filament</option>{filament.map((f) => <option key={f.id} value={f.id}>{filamentLabel(f)}</option>)}</select>)}
           {field('Estimated filament (grams)', <input className="input" required type="number" min="1" step="1" value={grams} onChange={(e) => setGrams(e.target.value)} />)}
           {field('Payout (USD, optional)', <input className="input" type="number" min="0" step="0.01" value={payout} onChange={(e) => setPayout(e.target.value)} />)}
           {field('Ship-by date (optional)', <input className="input" type="date" value={shipBy} onChange={(e) => setShipBy(e.target.value)} />)}
