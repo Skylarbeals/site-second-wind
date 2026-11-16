@@ -26,7 +26,7 @@ export const getCatalog = createServerFn({ method: 'GET' }).handler(async () => 
 
 export const acceptCustomerRequest = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator(z.object({ id: z.string().uuid(), materialItemId: z.string().min(1), grams: z.number().int().positive() }))
+  .inputValidator(z.object({ id: z.string().uuid(), materialItemId: z.string().min(1), grams: z.number().int().positive(), printTimeSeconds: z.number().int().positive().optional() }))
   .handler(async ({ data, context }) => {
     const role = await context.supabase.rpc('has_role', { _user_id: context.userId, _role: 'admin' });
     if (role.error || !role.data) throw new Error('Only the workshop team can accept requests.');
@@ -36,7 +36,7 @@ export const acceptCustomerRequest = createServerFn({ method: 'POST' })
     ]);
     if (quote.error || shop.error) throw new Error('The request or inventory could not be loaded.');
     if (quote.data.status === 'closed') throw new Error('This request is closed.');
-    const next = queueCustomerRequest(shop.data.data as unknown as Store, quote.data, data.materialItemId, data.grams);
+    const next = queueCustomerRequest(shop.data.data as unknown as Store, quote.data, data.materialItemId, data.grams, data.printTimeSeconds);
     const saved = await context.supabase.rpc('accept_quote_into_shop', { request_id: data.id, expected_updated_at: shop.data.updated_at, next_store: next.store as never, next_order_id: next.orderId });
     if (saved.error) throw new Error('Your shop changed while accepting this request. Refresh and try again.');
     return next.store;
