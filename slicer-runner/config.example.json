@@ -1,0 +1,10 @@
+{
+  "site_url": "https://site-second-wind.lovable.app",
+  "slicer_token": "PASTE THE SLICER TOKEN HERE",
+  "slicer_path": "C:\\Program Files\\ElegooSlicer\\elegoo-slicer.exe",
+  "printer_profile": "C:\\BenchstockSlicer\\profiles\\centauri-carbon-2.json",
+  "process_profile": "C:\\BenchstockSlicer\\profiles\\process.json",
+  "filament_profile": "C:\\BenchstockSlicer\\profiles\\filament.json",
+  "poll_seconds": 30,
+  "timeout_seconds": 900
+}
