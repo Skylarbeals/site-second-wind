@@ -52,6 +52,7 @@ export type Database = {
       filaments: {
         Row: {
           best_used_for: string
+          category: string
           color: string
           color_hex: string | null
           colors: Json
@@ -63,6 +64,7 @@ export type Database = {
         }
         Insert: {
           best_used_for?: string
+          category?: string
           color: string
           color_hex?: string | null
           colors?: Json
@@ -74,6 +76,7 @@ export type Database = {
         }
         Update: {
           best_used_for?: string
+          category?: string
           color?: string
           color_hex?: string | null
           colors?: Json
