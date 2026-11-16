@@ -28,3 +28,11 @@ export function queueCustomerRequest(store: Store, request: Pick<QuoteRequest, '
   const result = createOrder(store, { orderName: `${request.customer_name} · ${request.file_name}`, materialItemId, grams, status: 'queued', ...(printTimeSeconds !== undefined ? { printTimeSeconds } : {}) });
   return { store: { ...result.store, orders: result.store.orders.map(order => order.id === result.order.id ? { ...order, id } : order) }, orderId: id };
 }
+export type ColorOption = { name: string; hex: string; in_stock: boolean };
+export const colorOptionSchema = z.object({ name: z.string().trim().min(1).max(60), hex: z.string().regex(/^#[0-9a-fA-F]{6}$/), in_stock: z.boolean() });
+/** Reads a stored color list safely; falls back to the single legacy color. */
+export function readColors(value: unknown, fallback?: { name?: string | null; hex?: string | null; in_stock?: boolean }): ColorOption[] {
+  const list = Array.isArray(value) ? value.flatMap(v => { const p = colorOptionSchema.safeParse(v); return p.success ? [p.data] : []; }) : [];
+  if (list.length || !fallback?.name) return list;
+  return [{ name: fallback.name, hex: fallback.hex && /^#[0-9a-fA-F]{6}$/.test(fallback.hex) ? fallback.hex : '#f97316', in_stock: fallback.in_stock ?? true }];
+}
