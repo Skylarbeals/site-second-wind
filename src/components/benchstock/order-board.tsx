@@ -1,7 +1,7 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { Link } from '@tanstack/react-router';
 import { AlertCircle, Check, ExternalLink, X, CirclePlay, ClipboardList, Hourglass, History, Plus, Trash2 } from 'lucide-react';
-import { availableGramsOf, useInventory, type PrintOrder } from '@/lib/inventory';
+import { availableGramsOf, filamentLabel, useInventory, type PrintOrder } from '@/lib/inventory';
 import { CustomerRequests } from './customer-requests';
 
 const money = (n: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }).format(n);

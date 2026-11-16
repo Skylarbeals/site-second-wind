@@ -1,7 +1,7 @@
 import { useMemo, useState, type FormEvent } from 'react';
 import { AlertCircle, ArrowDownRight, Check, CircleDollarSign, ClipboardList, Package, Plus, Printer, Scale } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
-import { availableGramsOf, calcMaterialCost, useInventory, type OrderStatus } from '@/lib/inventory';
+import { availableGramsOf, filamentLabel, calcMaterialCost, useInventory, type OrderStatus } from '@/lib/inventory';
 
 export const statusLabel: Record<OrderStatus, string> = { queued: 'Not started', in_progress: 'In progress', completed: 'Completed' };
 

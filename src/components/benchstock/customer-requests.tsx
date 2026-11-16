@@ -3,7 +3,7 @@ import { useServerFn } from '@tanstack/react-start';
 import { Download, Check, X, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
-import { applyRemoteStore, useInventory } from '@/lib/inventory';
+import { applyRemoteStore, filamentLabel, useInventory } from '@/lib/inventory';
 import { acceptCustomerRequest } from '@/lib/storefront.functions';
 import type { QuoteRequest } from '@/lib/storefront';
 import { MessageThread } from '@/components/storefront/message-thread';
