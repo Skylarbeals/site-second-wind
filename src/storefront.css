@@ -182,5 +182,5 @@ button.swatch-dot{cursor:pointer}
 
 .material-tab-intro {color:var(--muted-foreground);margin:-8px 0 24px;}
 .material-grid {display:flex;flex-wrap:wrap;justify-content:center;gap:24px;}
-.material-grid>.material-card {flex:0 1 calc(50% - 12px);aspect-ratio:1/1;min-width:0;overflow:auto;}
+.material-grid>.material-card {flex:0 1 calc(50% - 12px);aspect-ratio:1/1;min-width:0;overflow:auto;box-sizing:border-box;}
 @media (max-width:640px){.material-grid>.material-card {flex-basis:100%;aspect-ratio:auto;}}
