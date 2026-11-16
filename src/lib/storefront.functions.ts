@@ -18,7 +18,7 @@ export const getCatalog = createServerFn({ method: 'GET' }).handler(async () => 
   } } });
   const [products, filaments] = await Promise.all([
     client.from('inventory_items').select('id,name,description,price_cents,quantity,image_url,colors,created_at').order('created_at', { ascending: false }),
-    client.from('filaments').select('id,name,material,color,color_hex,best_used_for,in_stock,colors,created_at').order('name'),
+    client.from('filaments').select('id,name,material,color,color_hex,best_used_for,in_stock,colors,category,created_at').order('name'),
   ]);
   if (products.error || filaments.error) throw new Error('The catalog could not be loaded. Please try again.');
   return { products: products.data, filaments: filaments.data };
