@@ -1,6 +1,7 @@
 import { useMemo, useState, type FormEvent } from 'react';
 import { AlertCircle, ArrowDownRight, Check, CircleDollarSign, ClipboardList, Package, Plus, Printer, Scale } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
+import { FilamentSelect, SpoolSwatch } from './filament-select';
 import { availableGramsOf, filamentLabel, calcMaterialCost, useInventory, type OrderStatus } from '@/lib/inventory';
 
 export const statusLabel: Record<OrderStatus, string> = { queued: 'Not started', in_progress: 'In progress', completed: 'Completed' };
@@ -148,23 +149,18 @@ export default function OrdersPage() {
             </label>
             <label className="field orders-field">
               <span className="field-label">Filament inventory item</span>
-              <select
-                className="select"
+              <FilamentSelect
+                items={availableMaterials}
                 value={materialItemId}
-                onChange={(event) => { setMaterialItemId(event.target.value); setError(''); setSuccess(''); }}
+                onChange={(id) => { setMaterialItemId(id); setError(''); setSuccess(''); }}
                 disabled={!availableMaterials.length}
-                data-testid="select-order-material"
-              >
-                <option value="">Select filament</option>
-                {availableMaterials.map((item) => (
-                  <option value={item.id} key={item.id}>
-                    {filamentLabel(item)}
-                  </option>
-                ))}
-              </select>
+                placeholder="Select filament"
+                label="Filament inventory item"
+                testId="select-order-material"
+              />
               {selectedMaterial && (
                 <span className="orders-material-meta" data-testid="text-selected-material">
-                  {selectedMaterial.sku && <>SKU {selectedMaterial.sku} <i /> </>}{selectedMaterial.material} <i /> {selectedMaterial.color} <i /> {availableGrams.toLocaleString()} g available
+                  {selectedMaterial.sku && <>SKU {selectedMaterial.sku} <i /> </>}{selectedMaterial.material} <i /> <SpoolSwatch color={selectedMaterial.color} /> {selectedMaterial.color} <i /> {availableGrams.toLocaleString()} g available
                 </span>
               )}
             </label>

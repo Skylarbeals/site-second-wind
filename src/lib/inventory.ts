@@ -358,3 +358,19 @@ export function filamentLabel(item: InventoryItem): string {
   const color = item.color?.trim() ? ` — ${item.color.trim()}` : '';
   return `${sku}${item.name}${color} · ${Number(item.quantity.toFixed(3))} kg left`;
 }
+
+const SWATCH_COLORS: Record<string, string> = {
+  black: '#111111', white: '#f5f5f5', grey: '#8a8a8a', gray: '#8a8a8a', silver: '#c0c0c0', red: '#dc2626',
+  orange: '#f97316', yellow: '#facc15', gold: '#d4a017', green: '#16a34a', lime: '#84cc16', teal: '#0d9488',
+  cyan: '#06b6d4', blue: '#2563eb', navy: '#1e3a8a', purple: '#9333ea', violet: '#8b5cf6', pink: '#ec4899',
+  magenta: '#d946ef', brown: '#7c4a1e', beige: '#d6c3a1', tan: '#c8a97e', bronze: '#a0682d', copper: '#b87333',
+  clear: '#dfe7ea', transparent: '#dfe7ea', natural: '#e8dcc0', ivory: '#fffff0', cream: '#f3e9d2',
+};
+/** Dot color for a spool's color name (e.g. "Matte Black" -> black), or null when unrecognised. */
+export function swatchColorFor(name: string | undefined): string | null {
+  const raw = (name ?? '').trim();
+  if (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(raw)) return raw;
+  const words = raw.toLowerCase().split(/[^a-z]+/).filter(Boolean).reverse();
+  for (const w of words) if (SWATCH_COLORS[w]) return SWATCH_COLORS[w];
+  return null;
+}
