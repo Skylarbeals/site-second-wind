@@ -152,6 +152,11 @@ export type Database = {
           id: string
           material: string
           order_id: string | null
+          slice_error: string | null
+          slice_grams: number | null
+          slice_seconds: number | null
+          slice_status: string
+          slice_updated_at: string | null
           status: string
         }
         Insert: {
@@ -167,6 +172,11 @@ export type Database = {
           id: string
           material: string
           order_id?: string | null
+          slice_error?: string | null
+          slice_grams?: number | null
+          slice_seconds?: number | null
+          slice_status?: string
+          slice_updated_at?: string | null
           status?: string
         }
         Update: {
@@ -182,6 +192,11 @@ export type Database = {
           id?: string
           material?: string
           order_id?: string | null
+          slice_error?: string | null
+          slice_grams?: number | null
+          slice_seconds?: number | null
+          slice_status?: string
+          slice_updated_at?: string | null
           status?: string
         }
         Relationships: []

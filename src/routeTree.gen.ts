@@ -27,6 +27,8 @@ import { Route as AuthenticatedWorkshopInventoryRouteImport } from './routes/_au
 import { Route as AuthenticatedWorkshopOrderBoardRouteImport } from './routes/_authenticated/_workshop/order-board'
 import { Route as AuthenticatedWorkshopOrdersRouteImport } from './routes/_authenticated/_workshop/orders'
 import { Route as AuthenticatedWorkshopSettingsRouteImport } from './routes/_authenticated/_workshop/settings'
+import { Route as ApiPublicSlicerNextRouteImport } from './routes/api/public/slicer/next'
+import { Route as ApiPublicSlicerResultRouteImport } from './routes/api/public/slicer/result'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -124,6 +126,16 @@ const AuthenticatedWorkshopSettingsRoute =
     path: '/settings',
     getParentRoute: () => AuthenticatedWorkshopRouteRoute,
   } as any)
+const ApiPublicSlicerNextRoute = ApiPublicSlicerNextRouteImport.update({
+  id: '/api/public/slicer/next',
+  path: '/api/public/slicer/next',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicSlicerResultRoute = ApiPublicSlicerResultRouteImport.update({
+  id: '/api/public/slicer/result',
+  path: '/api/public/slicer/result',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -142,6 +154,8 @@ export interface FileRoutesByFullPath {
   '/order-board': typeof AuthenticatedWorkshopOrderBoardRoute
   '/orders': typeof AuthenticatedWorkshopOrdersRoute
   '/settings': typeof AuthenticatedWorkshopSettingsRoute
+  '/api/public/slicer/next': typeof ApiPublicSlicerNextRoute
+  '/api/public/slicer/result': typeof ApiPublicSlicerResultRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -160,6 +174,8 @@ export interface FileRoutesByTo {
   '/order-board': typeof AuthenticatedWorkshopOrderBoardRoute
   '/orders': typeof AuthenticatedWorkshopOrdersRoute
   '/settings': typeof AuthenticatedWorkshopSettingsRoute
+  '/api/public/slicer/next': typeof ApiPublicSlicerNextRoute
+  '/api/public/slicer/result': typeof ApiPublicSlicerResultRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -181,6 +197,8 @@ export interface FileRoutesById {
   '/_authenticated/_workshop/order-board': typeof AuthenticatedWorkshopOrderBoardRoute
   '/_authenticated/_workshop/orders': typeof AuthenticatedWorkshopOrdersRoute
   '/_authenticated/_workshop/settings': typeof AuthenticatedWorkshopSettingsRoute
+  '/api/public/slicer/next': typeof ApiPublicSlicerNextRoute
+  '/api/public/slicer/result': typeof ApiPublicSlicerResultRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -201,6 +219,8 @@ export interface FileRouteTypes {
     | '/order-board'
     | '/orders'
     | '/settings'
+    | '/api/public/slicer/next'
+    | '/api/public/slicer/result'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -219,6 +239,8 @@ export interface FileRouteTypes {
     | '/order-board'
     | '/orders'
     | '/settings'
+    | '/api/public/slicer/next'
+    | '/api/public/slicer/result'
   id:
     | '__root__'
     | '/'
@@ -239,6 +261,8 @@ export interface FileRouteTypes {
     | '/_authenticated/_workshop/order-board'
     | '/_authenticated/_workshop/orders'
     | '/_authenticated/_workshop/settings'
+    | '/api/public/slicer/next'
+    | '/api/public/slicer/result'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -251,6 +275,8 @@ export interface RootRouteChildren {
   QuoteRoute: typeof QuoteRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ReviewsRoute: typeof ReviewsRoute
+  ApiPublicSlicerNextRoute: typeof ApiPublicSlicerNextRoute
+  ApiPublicSlicerResultRoute: typeof ApiPublicSlicerResultRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -381,6 +407,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedWorkshopSettingsRouteImport
       parentRoute: typeof AuthenticatedWorkshopRouteRoute
     }
+    '/api/public/slicer/next': {
+      id: '/api/public/slicer/next'
+      path: '/api/public/slicer/next'
+      fullPath: '/api/public/slicer/next'
+      preLoaderRoute: typeof ApiPublicSlicerNextRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/slicer/result': {
+      id: '/api/public/slicer/result'
+      path: '/api/public/slicer/result'
+      fullPath: '/api/public/slicer/result'
+      preLoaderRoute: typeof ApiPublicSlicerResultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -433,6 +473,8 @@ const rootRouteChildren: RootRouteChildren = {
   QuoteRoute: QuoteRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ReviewsRoute: ReviewsRoute,
+  ApiPublicSlicerNextRoute: ApiPublicSlicerNextRoute,
+  ApiPublicSlicerResultRoute: ApiPublicSlicerResultRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
