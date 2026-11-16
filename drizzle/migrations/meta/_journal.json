@@ -71,6 +71,13 @@
       "when": 1794789458796,
       "tag": "0009_quote_slice_estimates",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1794790360762,
+      "tag": "0010_color_variants",
+      "breakpoints": true
     }
   ]
 }
