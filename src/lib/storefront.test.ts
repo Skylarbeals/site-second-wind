@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { queueCustomerRequest, validateModel, quoteDetailsSchema } from './storefront';
+import { queueCustomerRequest, validateModel, quoteDetailsSchema, ADVANCED_EXTENSIONS, advancedSettingsSchema } from './storefront';
 import type { Store } from './inventory';
 
 const store: Store = { items: [{ id: 'spool', name: 'PLA black', sku: 'PLA', kind: 'material', material: 'PLA', color: 'Black', quantity: 1, unit: 'kg', threshold: 0, unitCost: 20, location: '', supplier: '', updatedAt: '2026-11-15', rollWeightKg: 1 }], orders: [], history: [] };
@@ -31,5 +31,15 @@ describe('customer requests', () => {
   });
   it('rejects invalid customer contact details', () => {
     expect(quoteDetailsSchema.safeParse({customer_name:'Customer', customer_email:'not-email', material:'PLA',color:'Black',comment:''}).success).toBe(false);
+  });
+  it('advanced orders accept CAD drawings and blueprints but not executables', () => {
+    for (const ext of ['dwg','dxf','pdf','iges','sldprt','stl']) expect(() => validateModel({name:`part.${ext}`,size:100}, ADVANCED_EXTENSIONS)).not.toThrow();
+    expect(() => validateModel({name:'part.dwg',size:100})).toThrow();
+    expect(() => validateModel({name:'part.exe',size:100}, ADVANCED_EXTENSIONS)).toThrow();
+  });
+  it('limits infill to 0-100% and layer height to 0.04-0.4 mm', () => {
+    expect(advancedSettingsSchema.safeParse({layer_height:0.2,infill_percent:20,orientation:null}).success).toBe(true);
+    expect(advancedSettingsSchema.safeParse({layer_height:0.2,infill_percent:101,orientation:null}).success).toBe(false);
+    expect(advancedSettingsSchema.safeParse({layer_height:0.5,infill_percent:20,orientation:null}).success).toBe(false);
   });
 });
