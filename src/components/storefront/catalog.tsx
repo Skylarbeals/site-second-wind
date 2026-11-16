@@ -4,7 +4,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { Flame, ArrowUpRight, Package, Layers, LockKeyhole, UserRound } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { catalogOptions } from '@/lib/storefront.queries';
-import workshopImage from '@/assets/print-fire-workshop.jpg';
+import workshopImage from '@/assets/print-fire-workshop-pro.jpg';
 import { useAccountSession } from './account-session';
 import { SignOutButton } from '@/components/benchstock/auth-gate';
 import { accountDestination } from '@/lib/customer-account';
