@@ -1,4 +1,6 @@
 # Roadmap
+- [ ] Automatically slice uploaded models (blocked: needs a separately hosted Elegoo slicing service and approved print/filament profiles)
+- [ ] Import Elegoo slice estimates, calculate printer-running cost at $5/hour, and save estimates with queued quotes
 - [x] Add customer registration and unified account sign-in
 - [x] Add owner-only order tracking and private customer/workshop messages
 - [x] Verify administrator sign-in, request tracking, messages, and anonymous restrictions
