@@ -17,8 +17,10 @@ export type PrintOrder = {
   id: string; orderName: string; grams: number; materialItemId: string;
   materialName: string; material: string; color: string; materialCost: number; date: string;
   status: OrderStatus; startedAt?: string | undefined; completedAt?: string | undefined;
+  /** Where the job came from (e.g. Hotend Labs); absent for in-house orders. */
+  source?: string | undefined; payout?: number | undefined; shipBy?: string | undefined;
 };
-export type NewPrintOrder = Pick<PrintOrder, 'orderName' | 'grams' | 'materialItemId'> & { status: 'queued' | 'in_progress' };
+export type NewPrintOrder = Pick<PrintOrder, 'orderName' | 'grams' | 'materialItemId'> & { status: 'queued' | 'in_progress'; source?: string; payout?: number; shipBy?: string };
 export type Store = { items: InventoryItem[]; history: StockChange[]; orders: PrintOrder[] };
 const STORAGE_KEY = 'benchstock-local-v1';
 const UPDATED = 'benchstock-change';
@@ -292,6 +294,16 @@ export function createOrder(store: Store, draft: NewPrintOrder, date = new Date(
     material: item.material, color: item.color, materialCost: calcMaterialCost(grams, item.unitCost, item.rollWeightKg),
     date, status: 'queued',
   };
+  const source = draft.source?.trim();
+  if (source) order.source = source.slice(0, 60);
+  if (draft.payout !== undefined) {
+    if (!Number.isFinite(draft.payout) || draft.payout < 0) throw new Error('Enter a payout of $0 or more.');
+    order.payout = Math.round(draft.payout * 100) / 100;
+  }
+  if (draft.shipBy) {
+    if (Number.isNaN(Date.parse(draft.shipBy))) throw new Error('Enter a valid ship-by date.');
+    order.shipBy = draft.shipBy;
+  }
   const withOrder: Store = { ...store, orders: [order, ...store.orders] };
   if (draft.status === 'queued') return { store: withOrder, order };
   const started = startOrderInStore(withOrder, order.id, date);
