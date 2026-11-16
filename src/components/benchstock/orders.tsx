@@ -1,7 +1,7 @@
 import { useMemo, useState, type FormEvent } from 'react';
 import { AlertCircle, ArrowDownRight, Check, CircleDollarSign, ClipboardList, Package, Plus, Printer, Scale } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
-import { availableGramsOf, calcMaterialCost, useInventory, type OrderStatus } from '@/lib/inventory';
+import { availableGramsOf, filamentLabel, calcMaterialCost, useInventory, type OrderStatus } from '@/lib/inventory';
 
 export const statusLabel: Record<OrderStatus, string> = { queued: 'Not started', in_progress: 'In progress', completed: 'Completed' };
 
@@ -158,13 +158,13 @@ export default function OrdersPage() {
                 <option value="">Select filament</option>
                 {availableMaterials.map((item) => (
                   <option value={item.id} key={item.id}>
-                    {item.name} · {item.quantity.toFixed(3)} kg left
+                    {filamentLabel(item)}
                   </option>
                 ))}
               </select>
               {selectedMaterial && (
                 <span className="orders-material-meta" data-testid="text-selected-material">
-                  {selectedMaterial.material} <i /> {selectedMaterial.color} <i /> {availableGrams.toLocaleString()} g available
+                  {selectedMaterial.sku && <>SKU {selectedMaterial.sku} <i /> </>}{selectedMaterial.material} <i /> {selectedMaterial.color} <i /> {availableGrams.toLocaleString()} g available
                 </span>
               )}
             </label>
