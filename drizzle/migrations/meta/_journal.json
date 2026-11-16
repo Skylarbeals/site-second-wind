@@ -78,6 +78,13 @@
       "when": 1794790360762,
       "tag": "0010_color_variants",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1794859129217,
+      "tag": "0011_filament_category",
+      "breakpoints": true
     }
   ]
 }

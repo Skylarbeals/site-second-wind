@@ -17,3 +17,4 @@
 - [x] Orders get stages: not started, in progress, completed
 - [x] New "Order board" nav button + page: in progress, not started, past orders
 - [x] Deduct filament only when an order moves to in progress
+- [x] Color swatch beside SKU/color in filament selectors

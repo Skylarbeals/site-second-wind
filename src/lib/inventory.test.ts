@@ -18,3 +18,9 @@ describe("print order material cost", () => {
     expect(calcMaterialCost(500, 18.5)).toBe(9.25);
   });
 });
+
+import { swatchColorFor } from './inventory';
+describe('swatchColorFor', () => {
+  it('matches the color word in a spool color name', () => { expect(swatchColorFor('Matte Black')).toBe('#111111'); });
+  it('returns null for an unknown color name', () => { expect(swatchColorFor('Galaxy Sparkle')).toBeNull(); });
+});
