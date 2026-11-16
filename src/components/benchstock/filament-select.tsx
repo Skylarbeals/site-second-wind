@@ -10,7 +10,7 @@ export function SpoolSwatch({ color }: { color?: string }) {
 export function FilamentSelect({ items, value, onChange, placeholder = 'Choose filament', disabled, testId, label }: {
   items: InventoryItem[]; value: string; onChange: (id: string) => void; placeholder?: string; disabled?: boolean; testId?: string; label?: string;
 }) {
-  return <Select value={value || undefined} onValueChange={onChange} disabled={disabled}>
+  return <Select value={value || undefined} onValueChange={onChange} disabled={!!disabled}>
     <SelectTrigger className="filament-select" data-testid={testId} aria-label={label}><SelectValue placeholder={placeholder} /></SelectTrigger>
     <SelectContent>{items.map(item => <SelectItem key={item.id} value={item.id}><span className="spool-option"><SpoolSwatch color={item.color} />{filamentLabel(item)}</span></SelectItem>)}</SelectContent>
   </Select>;
