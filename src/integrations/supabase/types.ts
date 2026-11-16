@@ -149,6 +149,8 @@ export type Database = {
       }
       quote_requests: {
         Row: {
+          blueprint_name: string | null
+          blueprint_path: string | null
           color: string
           comment: string | null
           created_at: string
@@ -159,8 +161,12 @@ export type Database = {
           file_name: string
           file_path: string
           id: string
+          infill_percent: number | null
+          layer_height: number | null
           material: string
           order_id: string | null
+          orientation: string | null
+          request_type: string
           slice_error: string | null
           slice_grams: number | null
           slice_seconds: number | null
@@ -169,6 +175,8 @@ export type Database = {
           status: string
         }
         Insert: {
+          blueprint_name?: string | null
+          blueprint_path?: string | null
           color: string
           comment?: string | null
           created_at?: string
@@ -179,8 +187,12 @@ export type Database = {
           file_name: string
           file_path: string
           id: string
+          infill_percent?: number | null
+          layer_height?: number | null
           material: string
           order_id?: string | null
+          orientation?: string | null
+          request_type?: string
           slice_error?: string | null
           slice_grams?: number | null
           slice_seconds?: number | null
@@ -189,6 +201,8 @@ export type Database = {
           status?: string
         }
         Update: {
+          blueprint_name?: string | null
+          blueprint_path?: string | null
           color?: string
           comment?: string | null
           created_at?: string
@@ -199,8 +213,12 @@ export type Database = {
           file_name?: string
           file_path?: string
           id?: string
+          infill_percent?: number | null
+          layer_height?: number | null
           material?: string
           order_id?: string | null
+          orientation?: string | null
+          request_type?: string
           slice_error?: string | null
           slice_grams?: number | null
           slice_seconds?: number | null
