@@ -177,3 +177,5 @@ button.swatch-dot{cursor:pointer}
 }
 .mobile-menu-label{display:none}
 @media(max-width:760px){.storefront-nav.menu-open .mobile-menu-label{display:inline;font-size:17px}.storefront-nav.menu-open nav [title]{justify-content:flex-start;width:100%;gap:8px;min-height:48px}}
+.cart-qty{display:flex;align-items:center;flex-shrink:0}.cart-buttons{display:flex;gap:8px}
+@media(max-width:760px){.cart-line{flex-direction:column;gap:10px}.cart-qty{gap:6px}.cart-qty button{width:44px;height:44px}.cart-buttons{flex-direction:column-reverse;width:100%}.cart-buttons button{width:100%;min-height:48px}.model-drop button{min-height:44px}}
