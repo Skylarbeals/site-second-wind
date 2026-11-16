@@ -175,3 +175,5 @@ button.swatch-dot{cursor:pointer}
  .review-stars button{padding:6px}
  .review-form{padding:18px}
 }
+.mobile-menu-label{display:none}
+@media(max-width:760px){.storefront-nav.menu-open .mobile-menu-label{display:inline;font-size:17px}.storefront-nav.menu-open nav [title]{justify-content:flex-start;width:100%;gap:8px;min-height:48px}}
