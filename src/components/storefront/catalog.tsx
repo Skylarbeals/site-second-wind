@@ -34,6 +34,16 @@ export function FilamentsPage() {
 function ProductCard({ item, add }: { item: Product; add: ReturnType<typeof useCart>['add'] }) {
   const colors = readColors(item.colors);
   const [color, setColor] = useState(colors.find(c => c.in_stock)?.name ?? '');
+  const [custom, setCustom] = useState(false); const [customColor, setCustomColor] = useState('');
   const needsColor = colors.length > 0;
-  return <article className="product-card"><div className="product-image">{item.image_url ? <img src={item.image_url} alt={item.name} loading="lazy" width={600} height={450}/> : <Package size={48}/>}<span className="product-stock">{item.quantity ? `${item.quantity} available` : 'Sold out'}</span></div><div className="product-copy"><div><h3>{item.name}</h3><strong>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(item.price_cents/100)}</strong></div><p>{item.description}</p>{needsColor && <><Swatches colors={colors} selected={color} onSelect={setColor}/><p className="text-muted-foreground">{color ? `Color: ${color}` : 'No colors available'}</p></>}<Button disabled={!item.quantity || (needsColor && !color)} onClick={()=>{add({id:color?`${item.id}::${color}`:item.id,name:color?`${item.name} — ${color}`:item.name,price_cents:item.price_cents,image_url:item.image_url,max:item.quantity});}}><ShoppingCart/> {item.quantity?'Add to cart':'Sold out'}</Button></div></article>;
+  const wanted = customColor.trim().slice(0, 60);
+  const canAdd = custom ? !!wanted : !!item.quantity && (!needsColor || !!color);
+  const addToCart = () => custom
+    ? add({ id: `${item.id}::custom::${wanted.toLowerCase()}`, name: `${item.name} — Custom color: ${wanted} (printed to order)`, price_cents: item.price_cents, image_url: item.image_url, max: 20 })
+    : add({ id: color ? `${item.id}::${color}` : item.id, name: color ? `${item.name} — ${color}` : item.name, price_cents: item.price_cents, image_url: item.image_url, max: item.quantity });
+  return <article className="product-card"><div className="product-image">{item.image_url ? <img src={item.image_url} alt={item.name} loading="lazy" width={600} height={450}/> : <Package size={48}/>}<span className="product-stock">{item.quantity ? `${item.quantity} available` : 'Sold out'}</span></div><div className="product-copy"><div><h3>{item.name}</h3><strong>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(item.price_cents/100)}</strong></div><p>{item.description}</p>
+    {!custom && needsColor && <><Swatches colors={colors} selected={color} onSelect={setColor}/><p className="text-muted-foreground">{color ? `Color: ${color}` : 'No colors available'}</p></>}
+    <label className="stock-checkbox"><input type="checkbox" checked={custom} onChange={e => setCustom(e.target.checked)}/> I want a different color</label>
+    {custom && <label className="custom-color-field">Which color?<input maxLength={60} value={customColor} onChange={e => setCustomColor(e.target.value)} placeholder="e.g. Glow-in-the-dark green"/><span className="text-muted-foreground">We'll print a fresh copy in this color.</span></label>}
+    <Button disabled={!canAdd} onClick={addToCart}><ShoppingCart/> {custom ? 'Add custom color to cart' : item.quantity ? 'Add to cart' : 'Sold out'}</Button></div></article>;
 }
