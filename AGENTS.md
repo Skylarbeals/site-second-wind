@@ -43,3 +43,5 @@ use the editor.
 - Workshop permissions use protected `user_roles` admin rows and RLS, not merely a signed-in session; new accounts require explicit role assignment. Why: future customer accounts must never inherit workshop access.
 - Public listings use separate `inventory_items` and `filaments` tables; quotes use private `quote_requests` and `quote-files`. Why: exposes only intentional catalog data, never workshop costs or customer files.
 - Quote acceptance runs through an authenticated server function and atomic compare-and-save SQL function with deterministic quote order IDs. Why: prevents duplicate jobs and concurrent inventory overwrites while preserving deduction-on-start.
+- Slice metadata parsing and printer-runtime costing live in a browser-safe pure module; accepted quote estimates persist in the existing shop order JSON and are calculated server-side. Why: supports backups without new public cost fields or executing uploaded G-code.
+- Native slicing requires separately hosted compute with trusted printer/process/filament profiles, never a spawned executable in site server functions. Why: the published runtime cannot run desktop slicer binaries.

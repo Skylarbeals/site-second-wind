@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { calcPrinterRunningCost } from './print-estimate';
 
 export type Kind = 'material' | 'tool' | 'consumable';
 export type RollWeightKg = 0.5 | 1 | 2 | 3;
@@ -19,8 +20,9 @@ export type PrintOrder = {
   status: OrderStatus; startedAt?: string | undefined; completedAt?: string | undefined;
   /** Where the job came from (e.g. Hotend Labs); absent for in-house orders. */
   source?: string | undefined; payout?: number | undefined; shipBy?: string | undefined;
+  printTimeSeconds?: number | undefined; printerRunningCost?: number | undefined;
 };
-export type NewPrintOrder = Pick<PrintOrder, 'orderName' | 'grams' | 'materialItemId'> & { status: 'queued' | 'in_progress'; source?: string; payout?: number; shipBy?: string };
+export type NewPrintOrder = Pick<PrintOrder, 'orderName' | 'grams' | 'materialItemId'> & { status: 'queued' | 'in_progress'; source?: string; payout?: number; shipBy?: string; printTimeSeconds?: number };
 export type Store = { items: InventoryItem[]; history: StockChange[]; orders: PrintOrder[] };
 const STORAGE_KEY = 'benchstock-local-v1';
 const UPDATED = 'benchstock-change';
@@ -114,6 +116,12 @@ function validateStore(value: unknown): Store {
       throw new Error('This backup contains an invalid print order.');
     }
     const status: OrderStatus = ORDER_STATUSES.includes(entry.status) ? entry.status : 'completed';
+    if (entry.printTimeSeconds !== undefined && (typeof entry.printTimeSeconds !== 'number' || !Number.isFinite(entry.printTimeSeconds) || entry.printTimeSeconds <= 0)) {
+      throw new Error('This backup contains an invalid print duration.');
+    }
+    if (entry.printerRunningCost !== undefined && (typeof entry.printerRunningCost !== 'number' || !Number.isFinite(entry.printerRunningCost) || entry.printerRunningCost < 0)) {
+      throw new Error('This backup contains an invalid printer-running cost.');
+    }
     return { ...entry, status } as unknown as PrintOrder;
   }) : [];
 
@@ -295,6 +303,11 @@ export function createOrder(store: Store, draft: NewPrintOrder, date = new Date(
     date, status: 'queued',
   };
   const source = draft.source?.trim();
+  if (draft.printTimeSeconds !== undefined) {
+    if (!Number.isInteger(draft.printTimeSeconds) || draft.printTimeSeconds <= 0) throw new Error('Enter a print duration greater than zero.');
+    order.printTimeSeconds = draft.printTimeSeconds;
+    order.printerRunningCost = calcPrinterRunningCost(draft.printTimeSeconds);
+  }
   if (source) order.source = source.slice(0, 60);
   if (draft.payout !== undefined) {
     if (!Number.isFinite(draft.payout) || draft.payout < 0) throw new Error('Enter a payout of $0 or more.');
@@ -307,7 +320,9 @@ export function createOrder(store: Store, draft: NewPrintOrder, date = new Date(
   const withOrder: Store = { ...store, orders: [order, ...store.orders] };
   if (draft.status === 'queued') return { store: withOrder, order };
   const started = startOrderInStore(withOrder, order.id, date);
-  return { store: started, order: started.orders.find((entry) => entry.id === order.id)! };
+  const startedOrder = started.orders.find((entry) => entry.id === order.id);
+  if (!startedOrder) throw new Error('The started order could not be found.');
+  return { store: started, order: startedOrder };
 }
 
 /** Moves a not-started order into progress; this is the moment its filament leaves inventory. */

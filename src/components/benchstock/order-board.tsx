@@ -27,6 +27,7 @@ function OrderLine({ order, children, meta }: { order: PrintOrder; children?: Re
         <div className="item-name">{order.orderName}{order.source && <span className="badge" style={{ marginLeft: 8 }}>{order.source}</span>}</div>
         {(order.payout !== undefined || order.shipBy) && <div className="item-meta">{order.payout !== undefined && `Payout ${money(order.payout)}`}{order.payout !== undefined && order.shipBy && ' · '}{order.shipBy && `Ship by ${new Date(order.shipBy + 'T12:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`}</div>}
         <div className="item-meta">{order.materialName} · {order.grams.toLocaleString()} g · {money(order.materialCost)}</div>
+        {order.printTimeSeconds !== undefined && order.printerRunningCost !== undefined && <div className="item-meta">Print estimate {Math.floor(order.printTimeSeconds / 3600)}h {Math.floor(order.printTimeSeconds % 3600 / 60)}m · Printer running {money(order.printerRunningCost)} · Printer + filament {money(order.printerRunningCost + order.materialCost)}</div>}
         <div className="item-meta">{meta}</div>
       </div>
       {children && <div className="board-actions">{children}</div>}

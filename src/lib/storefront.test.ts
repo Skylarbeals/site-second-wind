@@ -5,6 +5,13 @@ import type { Store } from './inventory';
 const store: Store = { items: [{ id: 'spool', name: 'PLA black', sku: 'PLA', kind: 'material', material: 'PLA', color: 'Black', quantity: 1, unit: 'kg', threshold: 0, unitCost: 20, location: '', supplier: '', updatedAt: '2026-11-15', rollWeightKg: 1 }], orders: [], history: [] };
 const request = { id: 'request-1', customer_name: 'Customer', file_name: 'part.stl' };
 describe('customer requests', () => {
+  it('saves a 90-minute estimate at $7.50 independently of $4 filament cost without deducting stock', () => {
+    const next = queueCustomerRequest(store, request, 'spool', 200, 5400);
+    expect(next.store.orders[0]?.printTimeSeconds).toBe(5400);
+    expect(next.store.orders[0]?.printerRunningCost).toBe(7.5);
+    expect(next.store.orders[0]?.materialCost).toBe(4);
+    expect(next.store.items[0]?.quantity).toBe(1);
+  });
   it('queues accepted requests without deducting filament', () => {
     const next = queueCustomerRequest(store, request, 'spool', 200);
     expect(next.store.orders[0]?.status).toBe('queued');

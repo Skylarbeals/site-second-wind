@@ -22,9 +22,9 @@ export function validateModel(file: { name: string; size: number }) {
   if (file.size <= 0 || file.size > MAX_MODEL_BYTES) throw new Error('Your model must be between 1 byte and 50 MB.');
   if (file.name.length > 180) throw new Error('Please shorten the file name to 180 characters or fewer.');
 }
-export function queueCustomerRequest(store: Store, request: Pick<QuoteRequest, 'id' | 'customer_name' | 'file_name'>, materialItemId: string, grams: number) {
+export function queueCustomerRequest(store: Store, request: Pick<QuoteRequest, 'id' | 'customer_name' | 'file_name'>, materialItemId: string, grams: number, printTimeSeconds?: number) {
   const id = `quote-${request.id}`;
   if (store.orders.some(order => order.id === id)) return { store, orderId: id };
-  const result = createOrder(store, { orderName: `${request.customer_name} · ${request.file_name}`, materialItemId, grams, status: 'queued' });
+  const result = createOrder(store, { orderName: `${request.customer_name} · ${request.file_name}`, materialItemId, grams, status: 'queued', ...(printTimeSeconds !== undefined ? { printTimeSeconds } : {}) });
   return { store: { ...result.store, orders: result.store.orders.map(order => order.id === result.order.id ? { ...order, id } : order) }, orderId: id };
 }
