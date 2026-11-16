@@ -138,3 +138,12 @@
 .review-label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
 .review-date{color:var(--muted-foreground);font-size:11px}
 .link-button{background:none;border:0;color:var(--primary);cursor:pointer;padding:0}
+.color-options-field{display:grid;gap:.5rem;border:1px solid var(--border);border-radius:.5rem;padding:.75rem}
+.color-option-row{display:flex;align-items:center;gap:.5rem}
+.color-option-row input[type=color]{width:2.5rem;height:2.25rem;padding:0;flex:none}
+.color-option-row input:not([type]){flex:1;min-width:0}
+.swatch-row{display:flex;flex-wrap:wrap;gap:.4rem;margin:.5rem 0}
+.swatch-dot{width:1.5rem;height:1.5rem;border-radius:999px;border:2px solid var(--border);display:inline-block;cursor:default}
+button.swatch-dot{cursor:pointer}
+.swatch-dot.is-selected{outline:2px solid var(--primary);outline-offset:2px}
+.swatch-dot.is-out,.swatch-dot:disabled{opacity:.3}

@@ -5,13 +5,13 @@ import { FileUp, Send, CheckCircle2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { catalogOptions } from '@/lib/storefront.queries';
-import { quoteDetailsSchema, validateModel } from '@/lib/storefront';
+import { quoteDetailsSchema, validateModel, readColors } from '@/lib/storefront';
 import { StorefrontShell } from './catalog';
 import { useAccountSession } from './account-session';
 
 export function QuotePage() {
   const { data } = useSuspenseQuery(catalogOptions);
-  const filaments = data.filaments.filter(f=>f.in_stock);
+  const filaments = data.filaments.filter(f=>f.in_stock).flatMap(f=>readColors(f.colors,{name:f.color,hex:f.color_hex,in_stock:f.in_stock}).filter(c=>c.in_stock).map(c=>({...f,id:`${f.id}::${c.name}`,color:c.name})));
   const [selection,setSelection] = useState(filaments[0]?.id ?? '');
   const [name,setName] = useState(''); const [email,setEmail] = useState('');
   const [material,setMaterial] = useState(''); const [color,setColor] = useState('');

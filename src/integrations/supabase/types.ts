@@ -54,6 +54,7 @@ export type Database = {
           best_used_for: string
           color: string
           color_hex: string | null
+          colors: Json
           created_at: string
           id: string
           in_stock: boolean
@@ -64,6 +65,7 @@ export type Database = {
           best_used_for?: string
           color: string
           color_hex?: string | null
+          colors?: Json
           created_at?: string
           id?: string
           in_stock?: boolean
@@ -74,6 +76,7 @@ export type Database = {
           best_used_for?: string
           color?: string
           color_hex?: string | null
+          colors?: Json
           created_at?: string
           id?: string
           in_stock?: boolean
@@ -84,6 +87,7 @@ export type Database = {
       }
       inventory_items: {
         Row: {
+          colors: Json
           created_at: string
           description: string | null
           id: string
@@ -93,6 +97,7 @@ export type Database = {
           quantity: number
         }
         Insert: {
+          colors?: Json
           created_at?: string
           description?: string | null
           id?: string
@@ -102,6 +107,7 @@ export type Database = {
           quantity?: number
         }
         Update: {
+          colors?: Json
           created_at?: string
           description?: string | null
           id?: string
