@@ -58,6 +58,6 @@ describe('external jobs', () => {
     expect(order.source).toBe('Hotend Labs');
     expect(order.payout).toBe(22.4);
     expect(order.shipBy).toBe('2026-11-20');
-    expect(next.items[0].quantity).toBe(1);
+    expect(next.items[0]?.quantity).toBe(1);
   });
 });
