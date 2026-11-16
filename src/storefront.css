@@ -147,3 +147,5 @@
 button.swatch-dot{cursor:pointer}
 .swatch-dot.is-selected{outline:2px solid var(--primary);outline-offset:2px}
 .swatch-dot.is-out,.swatch-dot:disabled{opacity:.3}
+.custom-color-field{display:grid;gap:.35rem;margin:.5rem 0}
+.custom-color-field input{background:var(--input);border:1px solid var(--border);border-radius:.4rem;padding:.45rem .6rem;color:var(--foreground)}
